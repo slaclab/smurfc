@@ -307,9 +307,9 @@ void CCARD_Tasks ( void )
                         break;
                     }    
                 }
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
+                break;
             }
-            Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
-            break;
         }
         
         case CCARD_READ_ADC:
