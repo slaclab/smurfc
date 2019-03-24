@@ -125,6 +125,8 @@ uint32_t temperature;
 
 uint32_t n;
 
+uint32_t ps_en;     // Power supplies (HEMT and 50k) enable
+
 // *****************************************************************************
 /* Application Data
 
@@ -213,6 +215,11 @@ void CCARD_Tasks ( void )
                 TES_relay_set(relay); // set relays to default
                 relay_busy = true;
                 ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer
+
+                // Disable power supplies
+                PS_HEMT_ENOff();
+                PS_50k_ENOff();
+
                 // set up register map
                 regptr[ADDR_ID] = &system_id; //read back relays by default
                 regptr[ADDR_STATUS] = &status;
@@ -221,6 +228,7 @@ void CCARD_Tasks ( void )
                 regptr[ADDR_50K_BIAS] = &a50k_bias;
                 regptr[ADDR_TEMPERATURE] = &temperature; 
                 regptr[ADDR_COUNTER] = &cycle_count;
+                regptr[ADDR_PS_EN] = &ps_en;
                  
                 SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );  // this is the SPI used for receiving commands
                 Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle,(SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0);// read buffer
@@ -300,6 +308,13 @@ void CCARD_Tasks ( void )
                         relay_busy = true;
                         TES_relay_set(relay); // set relays to default
                         ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer 
+                        break;
+                    }
+                    case ADDR_PS_EN:
+                    {
+                        ps_en = data & 0x03;  // Only 2 bits are used
+                        PS_HEMT_ENStateSet( ps_en & 0x01 );        // HEMT_EN
+                        PS_50k_ENStateSet( ( ps_en >> 1 ) & 0x01 );  // 50k_EN
                         break;
                     }
                     default:
