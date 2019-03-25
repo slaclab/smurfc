@@ -126,6 +126,7 @@ uint32_t temperature;
 uint32_t n;
 
 uint32_t ps_en;     // Power supplies (HEMT and 50k) enable
+uint32_t ac_dc_status; // AC/DC mode relay status
 
 // *****************************************************************************
 /* Application Data
@@ -229,6 +230,7 @@ void CCARD_Tasks ( void )
                 regptr[ADDR_TEMPERATURE] = &temperature; 
                 regptr[ADDR_COUNTER] = &cycle_count;
                 regptr[ADDR_PS_EN] = &ps_en;
+                regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
                  
                 SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );  // this is the SPI used for receiving commands
                 Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle,(SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0);// read buffer
@@ -286,6 +288,12 @@ void CCARD_Tasks ( void )
             {                
                 if (addr < ADDR_COUNT)  // address in range
                 {
+                    // If we are reading the AC/DC mode relays status, update the
+                    // status work with the readback value
+                    if (addr == ADDR_AC_DC_STATUS)
+                    {
+                        ac_dc_status = (FRP_RLYStateGet() << 1) | FRN_RLYStateGet();
+                    }
                     TXbuffer[0] = make_cmd(0,  addr, *regptr[addr] );
                   //  TXbuffer[0] = 0x01;
                     default_addr = addr; // this is now the default read back. 

@@ -250,8 +250,11 @@ extern "C" {
 #define RELAY1StateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
 #define RELAY1StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1, Value)
 
+/*** Functions for FRN_RLY pin ***/
+#define FRN_RLYStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
 
-/*** Application Instance 0 Configuration ***/
+/*** Functions for FRP_RLY pin ***/
+#define FRP_RLYStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
 
 // *****************************************************************************
 // *****************************************************************************
@@ -279,7 +282,8 @@ extern "C" {
 #define ADDR_TEMPERATURE 0x05
 #define ADDR_COUNTER 0x06
 #define ADDR_PS_EN 0x07 // PS enable (HEMT and 50k)
-#define ADDR_COUNT 8 // number of addreses
+#define ADDR_AC_DC_STATUS 0x08 // AC/DC mode
+#define ADDR_COUNT 9 // number of addreses
     
     
 //DOM-IGNORE-BEGIN
