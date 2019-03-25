@@ -107,7 +107,7 @@ extern "C" {
 #define SYS_PORT_D_LAT          0x0000
 #define SYS_PORT_D_ODC          0x0000
 
-#define SYS_PORT_E_TRIS         0xFFC0
+#define SYS_PORT_E_TRIS         0xFF00
 #define SYS_PORT_E_LAT          0x0020
 #define SYS_PORT_E_ODC          0x0000
 
@@ -222,6 +222,20 @@ extern "C" {
 // *****************************************************************************
 /*** Application Defined Pins ***/
 
+/*** Functions for PS_HEMT_EN pin ***/
+#define PS_HEMT_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, Value)
+
+/*** Functions for PS_50k_EN pin ***/
+#define PS_50k_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
+
 /*** Functions for RELAY0 pin ***/
 #define RELAY0Toggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
 #define RELAY0On() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
@@ -264,7 +278,8 @@ extern "C" {
 #define ADDR_50K_BIAS 0x04
 #define ADDR_TEMPERATURE 0x05
 #define ADDR_COUNTER 0x06
-#define ADDR_COUNT 7 // number of addreses
+#define ADDR_PS_EN 0x07 // PS enable (HEMT and 50k)
+#define ADDR_COUNT 8 // number of addreses
     
     
 //DOM-IGNORE-BEGIN
