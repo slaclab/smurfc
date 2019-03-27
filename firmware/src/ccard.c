@@ -64,9 +64,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // Taken from ccard.h
 uint32_t tes_reset_port[NUM_TES_CHANNELS] = { 4,  6,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  2,  0,  3,  0,  4  };
-uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11, 3,  9, 14, 15,  0,  4,  5  };
+uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11, 3,  9,  14, 15, 0,  4,  5  };
 uint32_t tes_set_port[NUM_TES_CHANNELS]   = { 4,  4,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  3,  0,  2,  0,  6  };
-uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10, 2,  8,  1, 14, 13,  5, 15  };
+uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10, 2,  8,  1,  14, 13, 5,  15 };
 
 uint32_t RELAY_DEFAULT = 0x00; 
 bool RELAY_LATCHING = true; 
