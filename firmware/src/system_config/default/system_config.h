@@ -261,8 +261,9 @@ extern "C" {
 // Taken from ccard.h
 // *****************************************************************************
 // *****************************************************************************
-#define NUM_TES_CHANNELS 17
-#define RELAY_DELAY 7  // relay delay in ms
+// Number of TES relays
+#define NUM_TES_CHANNELS 12
+
 // setup SPI chip select ports
 #define SPI_CS_PORT_ID PORT_CHANNEL_G
 #define SPI_CS_PORT_PIN PORTS_BIT_POS_9

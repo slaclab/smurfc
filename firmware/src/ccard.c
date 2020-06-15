@@ -63,13 +63,13 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 // *****************************************************************************
 // Taken from ccard.h
-uint32_t tes_reset_port[NUM_TES_CHANNELS] = { 4,  6,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  2,  0,  3,  0,  4  };
-uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11, 2,  9,  14, 15, 0,  4,  5  };
-uint32_t tes_set_port[NUM_TES_CHANNELS]   = { 4,  4,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  3,  0,  2,  0,  6  };
-uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10, 3,  8,  1,  14, 13, 5,  15 };
+
+// TES relays pins
+//                                    RA14 RA15  RD8  RD9 RD10 RD11  RF0  RF1  RA6  RA7  RE0  RE1
+uint32_t tes_port[NUM_TES_CHANNELS] = {  0,   0,   3,   3,   3,   3,   5,   5,   0,   0,   4,   4 };
+uint32_t tes_bit[NUM_TES_CHANNELS]  = { 14,  15,   8,   9,  10,  11,   0,   1,   6,   7,   0,   1 };
 
 uint32_t RELAY_DEFAULT = 0x00; 
-bool RELAY_LATCHING = true; 
 
 typedef uint32_t SPI_DATA_TYPE;  
 DRV_HANDLE SPIHandle;
@@ -107,8 +107,6 @@ uint32_t addr;
 uint32_t default_addr = 0x00; // used until set to some specific value,
 uint32_t data;
 bool rd;  // read / write data
-
-bool relay_busy = false; 
 
 #define num_test_commands 100
 uint32_t CMD[num_test_commands];
@@ -212,8 +210,6 @@ void CCARD_Tasks ( void )
                 cycle_count = 0;
                 relay = RELAY_DEFAULT; // clear all relays
                 TES_relay_set(relay); // set relays to default
-                relay_busy = true;
-                ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer
 
                 // Disable power supplies
                 PS_HEMT_ENOff();
@@ -243,11 +239,6 @@ void CCARD_Tasks ( void )
 
         case CCARD_STATE_SERVICE_TASKS:
         {
-            if (SYS_TMR_DelayStatusGet(ccardData.hDelayTimer)) // relay timer timed out
-            {
-                ccardData.state = CCARD_RELAY_TIMEOUT; // need to clear relays
-                break;
-            }
             if (DRV_SPI_BUFFER_EVENT_COMPLETE & DRV_SPI_BufferStatus(Read_Buffer_Handle)) // check for SPI data
             {
                 ccardData.state = CCARD_READ_SPI;  // need to read SPI data
@@ -258,18 +249,6 @@ void CCARD_Tasks ( void )
                ccardData.state = CCARD_READ_ADC;
                 break;
             }
-            break;
-        }
-        
-        case CCARD_RELAY_TIMEOUT:  // reset relays for latching mode of operation
-        {
-            if (RELAY_LATCHING)
-            {
-                TES_relay_clear(); // clears relay drive
-            }
-            relay_busy = false;  // relay done 
-            relay = relay & ((1 << (data_bits-1))-1);  // clear relay busy bit
-            ccardData.state = CCARD_STATE_SERVICE_TASKS;
             break;
         }
 
@@ -310,10 +289,7 @@ void CCARD_Tasks ( void )
                     case ADDR_RELAY:
                     {
                         relay = data | (1 << (data_bits -1)); // set bit to show that relays are in motion
-                        if (relay_busy) break;  // just ignore if relay already busy 
-                        relay_busy = true;
                         TES_relay_set(relay); // set relays to default
-                        ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer 
                         break;
                     }
                     case ADDR_PS_EN:
