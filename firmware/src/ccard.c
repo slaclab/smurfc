@@ -89,7 +89,7 @@ static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data )
     {return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );};
 
     
-uint32_t system_id = 0xABCDE;  // just for testing
+uint32_t firmware_version = 0x00000000; // Firmware version, coded in hex, 1 byte per digit
 
 // *****************************************************************************
 // Taken from ccard.c
@@ -218,7 +218,7 @@ void CCARD_Tasks ( void )
                 PS_50k_ENOff();
 
                 // set up register map
-                regptr[ADDR_ID] = &system_id; //read back relays by default
+                regptr[ADDR_VERSION] = &firmware_version; //read back relays by default
                 regptr[ADDR_STATUS] = &status;
                 regptr[ADDR_RELAY] = &relay; 
                 regptr[ADDR_HEMT_BIAS] = &hemt_bias;
