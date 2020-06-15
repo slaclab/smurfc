@@ -274,7 +274,7 @@ extern "C" {
 #define ADC_TEMPERATURE_CHAN 1
 #define ADC_50K_BIAS_CHAN 0    
 
-#define ADDR_ID  0x00  // returns sysetm ID, no write
+#define ADDR_VERSION 0x00 // return the firmware version number, no write 
 #define ADDR_STATUS  0x01 // returns status register, no write.
 #define ADDR_RELAY  0x02  // relay address
 #define ADDR_HEMT_BIAS 0x03
