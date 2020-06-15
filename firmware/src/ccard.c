@@ -89,7 +89,9 @@ static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data )
     {return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );};
 
     
-uint32_t firmware_version = 0x00000000; // Firmware version, coded in hex, 1 byte per digit
+// Firmware version. Coded in HEX, 1 byte per digit.
+// For example: Version R2.3.1 will be 0x020301
+uint32_t firmware_version = 0x010100;
 
 // *****************************************************************************
 // Taken from ccard.c
