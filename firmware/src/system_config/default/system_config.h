@@ -256,6 +256,20 @@ extern "C" {
 /*** Functions for FRP_RLY pin ***/
 #define FRP_RLYStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
 
+/*** Flux ramp control pins ***/
+// Voltage mode (V_AC_SW)
+#define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
+#define FluxRampVoltModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
+#define FluxRampVoltModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
+#define FluxRampVoltModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
+#define FluxRampVoltModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, value )
+// Current mode (I_DC_SW)
+#define FluxRampCurrModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
+#define FluxRampCurrModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
+#define FluxRampCurrModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
+#define FluxRampCurrModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
+#define FluxRampCurrModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, value )
+
 // *****************************************************************************
 // *****************************************************************************
 // Taken from ccard.h
