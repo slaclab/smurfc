@@ -216,48 +216,42 @@ void CCARD_Tasks ( void )
         /* Application's initial state. */
         case CCARD_STATE_INIT:
         {
-            bool appInitialized = true;
-       
-        
-            if (appInitialized)
-            {
-                cycle_count = 0;
-                relay = RELAY_DEFAULT; // clear all relays
-                TES_relay_set(relay); // set relays to default
+            cycle_count = 0;
+            relay = RELAY_DEFAULT; // clear all relays
+            TES_relay_set(relay); // set relays to default
 
-                // Disable power supplies
-                PS_HEMT_ENOff();
-                PS_50k_ENOff();
+            // Disable power supplies
+            PS_HEMT_ENOff();
+            PS_50k_ENOff();
 
-                // set up register map
-                regptr[ADDR_VERSION]      = &firmware_version;
-                regptr[ADDR_STATUS]       = &status;
-                regptr[ADDR_RELAY]        = &relay; 
-                regptr[ADDR_HEMT_BIAS]    = &hemt_bias;
-                regptr[ADDR_50K_BIAS]     = &a50k_bias;
-                regptr[ADDR_TEMPERATURE]  = &temperature; 
-                regptr[ADDR_COUNTER]      = &cycle_count;
-                regptr[ADDR_PS_EN]        = &ps_en;
-                regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
-                 
-                // this is the SPI used for receiving commands
-                SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
-                
-                // read buffer
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
-                        SPIHandle,
-                        (SPI_DATA_TYPE *)& TXbuffer[0], 
-                        SPI_BYTES, 
-                        (SPI_DATA_TYPE *)& RXbuffer[0], 
-                        SPI_BYTES,
-                        0,
-                        0);
-                
-                DRV_ADC_Open();
-                DRV_ADC_Start(); // start ADC running
-                
-                ccardData.state = CCARD_STATE_SERVICE_TASKS;
-            }
+            // set up register map
+            regptr[ADDR_VERSION]      = &firmware_version;
+            regptr[ADDR_STATUS]       = &status;
+            regptr[ADDR_RELAY]        = &relay;
+            regptr[ADDR_HEMT_BIAS]    = &hemt_bias;
+            regptr[ADDR_50K_BIAS]     = &a50k_bias;
+            regptr[ADDR_TEMPERATURE]  = &temperature;
+            regptr[ADDR_COUNTER]      = &cycle_count;
+            regptr[ADDR_PS_EN]        = &ps_en;
+            regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
+
+            // this is the SPI used for receiving commands
+            SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
+
+            // read buffer
+            Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                    SPIHandle,
+                    (SPI_DATA_TYPE *)& TXbuffer[0],
+                    SPI_BYTES,
+                    (SPI_DATA_TYPE *)& RXbuffer[0],
+                    SPI_BYTES,
+                    0,
+                    0);
+
+            DRV_ADC_Open();
+            DRV_ADC_Start(); // start ADC running
+
+            ccardData.state = CCARD_STATE_SERVICE_TASKS;
             
             break;
         }
