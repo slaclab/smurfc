@@ -69,24 +69,38 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 uint32_t tes_port[NUM_TES_CHANNELS] = {  0,   0,   3,   3,   3,   3,   5,   5,   0,   0,   4,   4 };
 uint32_t tes_bit[NUM_TES_CHANNELS]  = { 14,  15,   8,   9,  10,  11,   0,   1,   6,   7,   0,   1 };
 
+// Relays default state
 uint32_t RELAY_DEFAULT = 0x00; 
 
 typedef uint32_t SPI_DATA_TYPE;  
-DRV_HANDLE SPIHandle;
+DRV_HANDLE            SPIHandle;
 DRV_SPI_BUFFER_HANDLE Write_Buffer_Handle; // Write buffer handle
 DRV_SPI_BUFFER_HANDLE Read_Buffer_Handle; // Read buffer handle 
-SPI_DATA_TYPE TXbuffer[6]; // SPI Driver TX buffer
-SPI_DATA_TYPE RXbuffer[6]; // SPI Driver RX buffer
-uint32_t SPI_BYTES = 4; // So far this is all that works. 
+SPI_DATA_TYPE         TXbuffer[6]; // SPI Driver TX buffer
+SPI_DATA_TYPE         RXbuffer[6]; // SPI Driver RX buffer
+uint32_t              SPI_BYTES = 4; // So far this is all that works. 
+DRV_SPI_BUFFER_EVENT  test;
+uint32_t              data_bits = 20; // number of data bits
 
-DRV_SPI_BUFFER_EVENT test;
+// Helper functions
+static inline bool cmd_read(uint32_t data)
+{ 
+    return(!!(data & 0x80000000));
+};
+// check read bit
+static inline uint32_t cmd_address(uint32_t data){
+    return((data & 0x7FF00000)>> 20);
+};
 
-uint32_t data_bits = 20; // number of data bits
-static inline bool cmd_read(uint32_t data){ return(!!(data & 0x80000000));};  // check read bit
-static inline uint32_t cmd_address (uint32_t data) {return((data & 0x7FF00000)>> 20);};
-static inline uint32_t cmd_data (uint32_t data){return(data & 0xFFFFF);};  
-static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data )
-    {return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );};
+static inline uint32_t cmd_data(uint32_t data)
+{
+    return(data & 0xFFFFF);
+};  
+
+static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data)
+{
+    return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );
+};
 
     
 // Firmware version. Coded in HEX, 1 byte per digit.

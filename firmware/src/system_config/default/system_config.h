@@ -223,31 +223,31 @@ extern "C" {
 /*** Application Defined Pins ***/
 
 /*** Functions for PS_HEMT_EN pin ***/
-#define PS_HEMT_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENToggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOn()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOff()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
 #define PS_HEMT_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, Value)
 
 /*** Functions for PS_50k_EN pin ***/
-#define PS_50k_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENToggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOn()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOff()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
 
 /*** Functions for RELAY0 pin ***/
-#define RELAY0Toggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0On() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0Off() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0StateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
+#define RELAY0Toggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
+#define RELAY0On()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
+#define RELAY0Off()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
+#define RELAY0StateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
 #define RELAY0StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0, Value)
 
 /*** Functions for RELAY1 pin ***/
-#define RELAY1Toggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1On() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1Off() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1StateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
+#define RELAY1Toggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
+#define RELAY1On()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
+#define RELAY1Off()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
+#define RELAY1StateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
 #define RELAY1StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1, Value)
 
 /*** Functions for FRN_RLY pin ***/
@@ -265,26 +265,27 @@ extern "C" {
 #define NUM_TES_CHANNELS 12
 
 // setup SPI chip select ports
-#define SPI_CS_PORT_ID PORT_CHANNEL_G
-#define SPI_CS_PORT_PIN PORTS_BIT_POS_9
-#define APP_SPI_CS_SELECT() SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
+#define SPI_CS_PORT_ID        PORT_CHANNEL_G
+#define SPI_CS_PORT_PIN       PORTS_BIT_POS_9
+#define APP_SPI_CS_SELECT()   SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
 #define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
 
 // NOTE,Harmony always reads ADC channels in numerical order
-#define ADC_HEMT_BIAS_CHAN 2
+#define ADC_HEMT_BIAS_CHAN   2
 #define ADC_TEMPERATURE_CHAN 1
-#define ADC_50K_BIAS_CHAN 0    
+#define ADC_50K_BIAS_CHAN    0    
 
-#define ADDR_VERSION 0x00 // return the firmware version number, no write 
-#define ADDR_STATUS  0x01 // returns status register, no write.
-#define ADDR_RELAY  0x02  // relay address
-#define ADDR_HEMT_BIAS 0x03
-#define ADDR_50K_BIAS 0x04
-#define ADDR_TEMPERATURE 0x05
-#define ADDR_COUNTER 0x06
-#define ADDR_PS_EN 0x07 // PS enable (HEMT and 50k)
+// SPI Function addresses 
+#define ADDR_VERSION      0x00 // return the firmware version number, no write 
+#define ADDR_STATUS       0x01 // returns status register, no write.
+#define ADDR_RELAY        0x02  // relay address
+#define ADDR_HEMT_BIAS    0x03
+#define ADDR_50K_BIAS     0x04
+#define ADDR_TEMPERATURE  0x05
+#define ADDR_COUNTER      0x06
+#define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_AC_DC_STATUS 0x08 // AC/DC mode
-#define ADDR_COUNT 9 // number of addreses
+#define ADDR_COUNT           9 // number of addreses
     
     
 //DOM-IGNORE-BEGIN
