@@ -135,8 +135,9 @@ uint32_t temperature;
 
 uint32_t n;
 
-uint32_t ps_en;     // Power supplies (HEMT and 50k) enable
-uint32_t ac_dc_status; // AC/DC mode relay status
+uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
+uint32_t ac_dc_status;      // AC/DC mode relay status
+uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
 
 // *****************************************************************************
 /* Application Data
@@ -224,6 +225,10 @@ void CCARD_Tasks ( void )
             PS_HEMT_ENOff();
             PS_50k_ENOff();
 
+            // Set flux ramps to DC coupled state
+            FluxRampVoltModeOff();
+            FluxRampCurrModeOff();
+
             // set up register map
             regptr[ADDR_VERSION]      = &firmware_version;
             regptr[ADDR_STATUS]       = &status;
@@ -234,6 +239,7 @@ void CCARD_Tasks ( void )
             regptr[ADDR_COUNTER]      = &cycle_count;
             regptr[ADDR_PS_EN]        = &ps_en;
             regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
+            regptr[ADDR_FLUX_RAMP]    = &flux_ramp_control;
 
             // this is the SPI used for receiving commands
             SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
@@ -332,9 +338,28 @@ void CCARD_Tasks ( void )
                     }
                     case ADDR_PS_EN:
                     {
-                        ps_en = data & 0x03;  // Only 2 bits are used
-                        PS_HEMT_ENStateSet( ps_en & 0x01 );        // HEMT_EN
-                        PS_50k_ENStateSet( ( ps_en >> 1 ) & 0x01 );  // 50k_EN
+                        // Only 2 bits are used
+                        ps_en = data & 0x03;
+
+                        // HEMT_EN (bit 0)
+                        PS_HEMT_ENStateSet( ps_en & 0x01 );
+
+                        // 50k_EN (bit 1)
+                        PS_50k_ENStateSet( ( ps_en >> 1 ) & 0x01 );
+
+                        break;
+                    }
+                    case ADDR_FLUX_RAMP:
+                    {
+                        // Only 2 bits are used
+                        flux_ramp_control = data & 0x03;
+
+                        // Voltage mode flux ramp control (bit 0)
+                        FluxRampVoltModeStateSet( flux_ramp_control & 0x01 );
+
+                        // Current mode flux ramp control (bit 1)
+                        FluxRampCurrModeStateSet( ( flux_ramp_control >> 1 ) & 0x01 );
+
                         break;
                     }
                     default:

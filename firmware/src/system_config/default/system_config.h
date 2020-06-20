@@ -299,7 +299,8 @@ extern "C" {
 #define ADDR_COUNTER      0x06 // return the cycle counts, no write
 #define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_AC_DC_STATUS 0x08 // AC/DC mode
-#define ADDR_COUNT           9 // number of addreses
+#define ADDR_FLUX_RAMP    0x09 // Flux ramp controls
+#define ADDR_COUNT          10 // number of addreses
     
     
 //DOM-IGNORE-BEGIN
