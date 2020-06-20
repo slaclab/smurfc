@@ -277,12 +277,12 @@ extern "C" {
 
 // SPI Function addresses 
 #define ADDR_VERSION      0x00 // return the firmware version number, no write 
-#define ADDR_STATUS       0x01 // returns status register, no write.
-#define ADDR_RELAY        0x02  // relay address
-#define ADDR_HEMT_BIAS    0x03
-#define ADDR_50K_BIAS     0x04
-#define ADDR_TEMPERATURE  0x05
-#define ADDR_COUNTER      0x06
+#define ADDR_STATUS       0x01 // returns status register, no write
+#define ADDR_RELAY        0x02 // relay address
+#define ADDR_HEMT_BIAS    0x03 // returns the HEMT bias value, no write
+#define ADDR_50K_BIAS     0x04 // returns the 50K bias value, no write
+#define ADDR_TEMPERATURE  0x05 // returns the temperature value, no write
+#define ADDR_COUNTER      0x06 // return the cycle counts, no write
 #define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_AC_DC_STATUS 0x08 // AC/DC mode
 #define ADDR_COUNT           9 // number of addreses

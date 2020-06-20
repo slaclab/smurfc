@@ -230,24 +230,35 @@ void CCARD_Tasks ( void )
                 PS_50k_ENOff();
 
                 // set up register map
-                regptr[ADDR_VERSION] = &firmware_version; //read back relays by default
-                regptr[ADDR_STATUS] = &status;
-                regptr[ADDR_RELAY] = &relay; 
-                regptr[ADDR_HEMT_BIAS] = &hemt_bias;
-                regptr[ADDR_50K_BIAS] = &a50k_bias;
-                regptr[ADDR_TEMPERATURE] = &temperature; 
-                regptr[ADDR_COUNTER] = &cycle_count;
-                regptr[ADDR_PS_EN] = &ps_en;
+                regptr[ADDR_VERSION]      = &firmware_version;
+                regptr[ADDR_STATUS]       = &status;
+                regptr[ADDR_RELAY]        = &relay; 
+                regptr[ADDR_HEMT_BIAS]    = &hemt_bias;
+                regptr[ADDR_50K_BIAS]     = &a50k_bias;
+                regptr[ADDR_TEMPERATURE]  = &temperature; 
+                regptr[ADDR_COUNTER]      = &cycle_count;
+                regptr[ADDR_PS_EN]        = &ps_en;
                 regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
                  
-                SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );  // this is the SPI used for receiving commands
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle,(SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0);// read buffer
+                // this is the SPI used for receiving commands
+                SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
+                
+                // read buffer
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                        SPIHandle,
+                        (SPI_DATA_TYPE *)& TXbuffer[0], 
+                        SPI_BYTES, 
+                        (SPI_DATA_TYPE *)& RXbuffer[0], 
+                        SPI_BYTES,
+                        0,
+                        0);
                 
                 DRV_ADC_Open();
                 DRV_ADC_Start(); // start ADC running
                 
                 ccardData.state = CCARD_STATE_SERVICE_TASKS;
             }
+            
             break;
         }
 
@@ -258,11 +269,13 @@ void CCARD_Tasks ( void )
                 ccardData.state = CCARD_READ_SPI;  // need to read SPI data
                 break;
             }
+            
             if (DRV_ADC_SamplesAvailable())
             {
                ccardData.state = CCARD_READ_ADC;
                 break;
             }
+            
             break;
         }
 
@@ -270,13 +283,17 @@ void CCARD_Tasks ( void )
         case CCARD_READ_SPI:  // this is where we receive commands
         {
             cycle_count++;
-            command = RXbuffer[0]; // lock in command for decoding
-            rd = cmd_read(command);
-            addr = cmd_address (command);
-            data = cmd_data (command);  
+            command         = RXbuffer[0]; // lock in command for decoding
+            rd              = cmd_read(command);
+            addr            = cmd_address(command);
+            data            = cmd_data(command);  
             ccardData.state = CCARD_STATE_SERVICE_TASKS;   // may be overridden later
-            if (rd)  // read command received.
+            
+            
+            if (rd)
             {                
+                // Read command received.
+                
                 if (addr < ADDR_COUNT)  // address in range
                 {
                     // If we are reading the AC/DC mode relays status, update the
@@ -286,18 +303,31 @@ void CCARD_Tasks ( void )
                         ac_dc_status = (FRP_RLYStateGet() << 1) | FRN_RLYStateGet();
                     }
                     TXbuffer[0] = make_cmd(0,  addr, *regptr[addr] );
-                  //  TXbuffer[0] = 0x01;
+                    //TXbuffer[0] = 0x01;
                     default_addr = addr; // this is now the default read back. 
-                } else
+                } 
+                else
                 {
                     TXbuffer[0] = make_cmd(0, default_addr, *regptr[default_addr]);
                 }
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
+                
+                // start new data read
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                        SPIHandle,
+                        (SPI_DATA_TYPE *)& TXbuffer[0], 
+                        SPI_BYTES, 
+                        (SPI_DATA_TYPE *)& RXbuffer[0], 
+                        SPI_BYTES,
+                        0,
+                        0);
             }
-            else // write command
+            else
             { 
-                TXbuffer[0] = make_cmd(0,  default_addr, *regptr[default_addr] );
+                // Write command received.
+                
+                TXbuffer[0] = make_cmd(0, default_addr, *regptr[default_addr]);
                 //TXbuffer[0] = 0x01;
+                
                 switch (addr)
                 {
                     case ADDR_RELAY:
@@ -318,7 +348,14 @@ void CCARD_Tasks ( void )
                         break;
                     }    
                 }
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                        SPIHandle, 
+                        (SPI_DATA_TYPE *)& TXbuffer[0], 
+                        SPI_BYTES, 
+                        (SPI_DATA_TYPE *)& RXbuffer[0], 
+                        SPI_BYTES,
+                        0,
+                        0); // start new data read
             }
             break;
         }
@@ -326,14 +363,34 @@ void CCARD_Tasks ( void )
         case CCARD_READ_ADC:
         {
             DRV_ADC_Stop();
-            for (n = 0; n < 16; n++) { adc_data[n] = DRV_ADC_SamplesRead(n);}  // KLUDGE< first points seem bad!
+            
+            // KLUDGE< first points seem bad!
+            for (n = 0; n < 16; n++)
+            { 
+                adc_data[n] = DRV_ADC_SamplesRead(n);
+            }  
+            
             DRV_ADC_Start(); // start ADC running again
-            hemt_bias = 0;
-            a50k_bias = 0;
+            
+            hemt_bias   = 0;
+            a50k_bias   = 0;
             temperature = 0; // average 5 samples each
-            for (n = ADC_HEMT_BIAS_CHAN; n < 15; n = n + 3) {hemt_bias += adc_data[n];}
-            for (n = ADC_50K_BIAS_CHAN; n < 15; n = n + 3) {a50k_bias += adc_data[n];}
-            for (n = ADC_TEMPERATURE_CHAN; n < 15; n = n + 3) {temperature += adc_data[n];}        
+            
+            for (n = ADC_HEMT_BIAS_CHAN; n < 15; n = n + 3)
+            {
+                hemt_bias += adc_data[n];
+            }
+            
+            for (n = ADC_50K_BIAS_CHAN; n < 15; n = n + 3)
+            {
+                a50k_bias += adc_data[n];
+            }
+            
+            for (n = ADC_TEMPERATURE_CHAN; n < 15; n = n + 3)
+            {
+                temperature += adc_data[n];
+            }
+            
             ccardData.state = CCARD_STATE_SERVICE_TASKS;
             break;
          }   
