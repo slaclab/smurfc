@@ -15,5 +15,5 @@ This file describe the register map accessible trough the SPI bus.
 | 0x04    | Read-only  | 50K bias value.
 | 0x05    | Read-only  | Temperature value.
 | 0x06    | Read-only  | Cycle counts. Return the number of SPI read operations.
-| 0x07    | Read/Write | Power supply enables, 2 bits:<br>- bit 0 : HEMT<br>- bit 1 : 50K.
-| 0x08    | Read/Write | Flux ramp controls, 2 bits:<br>- bit 0 : Voltage mode<br>- bit 1 : Current mode
+| 0x07    | Read/Write | Power supply enables, 2 bits:<ul><li>bit 0 : HEMT</li><li>bit 1 : 50K</li></ul>
+| 0x08    | Read/Write | Flux ramp controls, 2 bits:<ul><li>bit 0 : Voltage mode</li><li>bit 1 : Current mode</li></ul>
