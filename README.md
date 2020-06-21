@@ -6,7 +6,7 @@ This is the original code for the SMuRF cryostat board.
 
 The board is bases on the microchip's microcontroller PIC32MX795F512L.
 
-The code was developed using Microchip's MPLAB X and the MPLAB Harmony Configurator (MHC)i framework.
+The code was developed using Microchip's MPLAB X and the MPLAB Harmony Configuration (MHC) framework.
 
 ## Software package versions
 
@@ -27,7 +27,7 @@ C:\microchip\harmony\v2_06\apps\
 on Windows, and
 
 ```
-/Users/<YOUR_USER_NAME>/microchip/harmony/v2_06/
+/Users/<YOUR_USER_NAME>/microchip/harmony/v2_06/apps
 ```
 
 on macOS
