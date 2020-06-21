@@ -296,12 +296,6 @@ void CCARD_Tasks ( void )
                 
                 if (addr < ADDR_COUNT)  // address in range
                 {
-                    // If we are reading the AC/DC mode relays status, update the
-                    // status work with the readback value
-                    if (addr == ADDR_AC_DC_STATUS)
-                    {
-                        ac_dc_status = (FRP_RLYStateGet() << 1) | FRN_RLYStateGet();
-                    }
                     TXbuffer[0] = make_cmd(0,  addr, *regptr[addr] );
                     //TXbuffer[0] = 0x01;
                     default_addr = addr; // this is now the default read back. 

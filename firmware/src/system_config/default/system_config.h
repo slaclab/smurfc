@@ -250,12 +250,6 @@ extern "C" {
 #define RELAY1StateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
 #define RELAY1StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1, Value)
 
-/*** Functions for FRN_RLY pin ***/
-#define FRN_RLYStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
-
-/*** Functions for FRP_RLY pin ***/
-#define FRP_RLYStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
-
 /*** Flux ramp control pins ***/
 // Voltage mode (V_AC_SW)
 #define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
