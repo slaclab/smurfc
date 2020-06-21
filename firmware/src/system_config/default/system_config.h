@@ -236,20 +236,6 @@ extern "C" {
 #define PS_50k_ENStateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
 
-/*** Functions for RELAY0 pin ***/
-#define RELAY0Toggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0On()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0Off()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0StateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
-#define RELAY0StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0, Value)
-
-/*** Functions for RELAY1 pin ***/
-#define RELAY1Toggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1On()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1Off()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1StateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
-#define RELAY1StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1, Value)
-
 /*** Flux ramp control pins ***/
 // Voltage mode (V_AC_SW)
 #define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
