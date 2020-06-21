@@ -222,28 +222,28 @@ extern "C" {
 // *****************************************************************************
 /*** Application Defined Pins ***/
 
-/*** Functions for PS_HEMT_EN pin ***/
-#define PS_HEMT_ENToggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENOn()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENOff()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENStateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
-#define PS_HEMT_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, Value)
-
-/*** Functions for PS_50k_EN pin ***/
-#define PS_50k_ENToggle()        PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENOn()            PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENOff()           PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENStateGet()      PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
-#define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
+/*** Power supply enable pins ***/
+// HEMT (Vd_HEMT_EN) [RE6]
+#define PS_HEMT_ENToggle()              PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
+#define PS_HEMT_ENOn()                  PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
+#define PS_HEMT_ENOff()                 PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
+#define PS_HEMT_ENStateGet()            PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
+#define PS_HEMT_ENStateSet(value)       PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, value )
+// 50k (Vd_50k_EN) [RE7]
+#define PS_50k_ENToggle()               PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
+#define PS_50k_ENOn()                   PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
+#define PS_50k_ENOff()                  PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
+#define PS_50k_ENStateGet()             PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
+#define PS_50k_ENStateSet(value)        PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, value )
 
 /*** Flux ramp control pins ***/
-// Voltage mode (V_AC_SW)
+// Voltage mode (V_AC_SW) [RG15]
 #define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
 #define FluxRampVoltModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
 #define FluxRampVoltModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
 #define FluxRampVoltModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
 #define FluxRampVoltModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, value )
-// Current mode (I_DC_SW)
+// Current mode (I_DC_SW) [RE5]
 #define FluxRampCurrModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
 #define FluxRampCurrModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
 #define FluxRampCurrModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
