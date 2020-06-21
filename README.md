@@ -29,3 +29,7 @@ C:\microchip\harmony\v2_06\apps\
 ```
 /Users/<YOUR_USER_NAME>/microchip/harmony/v2_06/apps
 ```
+
+## SPI bus register map
+
+The register map is describe in [README.SpiRegisterMap.md](README.SpiRegisterMap.md).
