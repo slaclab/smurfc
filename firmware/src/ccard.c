@@ -136,7 +136,6 @@ uint32_t temperature;
 uint32_t n;
 
 uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
-uint32_t ac_dc_status;      // AC/DC mode relay status
 uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
 
 // *****************************************************************************
@@ -238,7 +237,6 @@ void CCARD_Tasks ( void )
             regptr[ADDR_TEMPERATURE]  = &temperature;
             regptr[ADDR_COUNTER]      = &cycle_count;
             regptr[ADDR_PS_EN]        = &ps_en;
-            regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
             regptr[ADDR_FLUX_RAMP]    = &flux_ramp_control;
 
             // this is the SPI used for receiving commands
@@ -288,7 +286,6 @@ void CCARD_Tasks ( void )
             addr            = cmd_address(command);
             data            = cmd_data(command);  
             ccardData.state = CCARD_STATE_SERVICE_TASKS;   // may be overridden later
-            
             
             if (rd)
             {                
