@@ -103,19 +103,18 @@ static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data)
 };
 
 // Variables used as register maps
-// Firmware version. Coded in HEX, 1 byte per digit.
-// For example: Version R2.3.1 will be 0x020301
-uint32_t firmware_version = 0x010100;
-uint32_t status           = 0; 
-uint32_t relay; 
-uint32_t hemt_bias;
-uint32_t a50k_bias;
-uint32_t temperature;
-uint32_t cycle_count      = 0;
+uint32_t firmware_version;  // Firmware version
+uint32_t status;            // Status register
+uint32_t relay;             // TES relays control
+uint32_t hemt_bias;         // HEMT bias value
+uint32_t a50k_bias;         // 50K bias value
+uint32_t temperature;       // Temperature value
+uint32_t cycle_count;       // Cycles counts
 uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
 uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
-uint32_t id_volt;
-uint32_t default_addr = 0x00; // used until set to some specific value,
+uint32_t id_volt;           // ID voltage value
+
+uint32_t default_addr;        // Address used when an invalid address is received
 uint32_t *regptr[ADDR_COUNT]; // will hold pointers to various registers
 
 // *****************************************************************************
@@ -174,7 +173,6 @@ void CCARD_Initialize ( void )
     /* Place the App state machine in its initial state. */
     ccardData.state = CCARD_STATE_INIT;
 
-    
     TXbuffer[0] = 0;
 }
 
@@ -196,9 +194,17 @@ void CCARD_Tasks ( void )
         /* Application's initial state. */
         case CCARD_STATE_INIT:
         {
-            cycle_count = 0;
-            relay = RELAY_DEFAULT; // clear all relays
-            TES_relay_set(relay); // set relays to default
+            // Set initial register values
+            firmware_version  = FIRMWARE_VERSION; // Set firmware version value
+            status            = 0;                // Clear status word
+            relay             = RELAY_DEFAULT;    // Initial relay state
+            cycle_count       = 0;                // Clear cycle counter
+            ps_en             = 0;                // Power supplies are disabled
+            flux_ramp_control = 0;                // Flux ramp are DC coupled
+            default_addr      = 0x00;             // Used until set to some specific value
+
+            // Set TES relays to default value
+            TES_relay_set(relay);
 
             // Disable power supplies
             PS_HEMT_ENOff();

@@ -286,6 +286,9 @@ extern "C" {
 #define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
 #define ADDR_COUNT          10 // number of addreses
     
+// Firmware version. Coded in HEX, 1 byte per digit.
+// For example: Version R2.3.1 will be 0x020301
+#define FIRMWARE_VERSION 0x010100
     
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
