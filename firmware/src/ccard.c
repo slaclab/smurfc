@@ -122,10 +122,7 @@ uint32_t default_addr = 0x00; // used until set to some specific value,
 uint32_t data;
 bool rd;  // read / write data
 
-#define num_test_commands 100
-uint32_t CMD[num_test_commands];
 uint32_t status = 0; 
-uint32_t return_data; 
 uint32_t *regptr[ADDR_COUNT];  // will hold pointers to various registers
 
 uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
