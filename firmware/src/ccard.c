@@ -63,68 +63,59 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 // *****************************************************************************
 // Taken from ccard.h
-uint32_t tes_reset_port[NUM_TES_CHANNELS] = { 4,  6,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  2,  0,  3,  0,  4  };
-uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11, 2,  9,  14, 15, 0,  4,  5  };
-uint32_t tes_set_port[NUM_TES_CHANNELS]   = { 4,  4,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3,  3,  0,  2,  0,  6  };
-uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10, 3,  8,  1,  14, 13, 5,  15 };
 
+// TES relays pins
+//                                    RA14 RA15  RD8  RD9 RD10 RD11  RF0  RF1  RA6  RA7  RE0  RE1
+uint32_t tes_port[NUM_TES_CHANNELS] = {  0,   0,   3,   3,   3,   3,   5,   5,   0,   0,   4,   4 };
+uint32_t tes_bit[NUM_TES_CHANNELS]  = { 14,  15,   8,   9,  10,  11,   0,   1,   6,   7,   0,   1 };
+
+// Relays default state
 uint32_t RELAY_DEFAULT = 0x00; 
-bool RELAY_LATCHING = true; 
 
 typedef uint32_t SPI_DATA_TYPE;  
-DRV_HANDLE SPIHandle;
+DRV_HANDLE            SPIHandle;
 DRV_SPI_BUFFER_HANDLE Write_Buffer_Handle; // Write buffer handle
 DRV_SPI_BUFFER_HANDLE Read_Buffer_Handle; // Read buffer handle 
-SPI_DATA_TYPE TXbuffer[6]; // SPI Driver TX buffer
-SPI_DATA_TYPE RXbuffer[6]; // SPI Driver RX buffer
-uint32_t SPI_BYTES = 4; // So far this is all that works. 
+SPI_DATA_TYPE         TXbuffer[6]; // SPI Driver TX buffer
+SPI_DATA_TYPE         RXbuffer[6]; // SPI Driver RX buffer
+uint32_t              SPI_BYTES = 4; // So far this is all that works. 
+DRV_SPI_BUFFER_EVENT  test;
+uint32_t              data_bits = 20; // number of data bits
 
-DRV_SPI_BUFFER_EVENT test;
+// Helper functions
+static inline bool cmd_read(uint32_t data)
+{ 
+    return(!!(data & 0x80000000));
+};
+// check read bit
+static inline uint32_t cmd_address(uint32_t data){
+    return((data & 0x7FF00000)>> 20);
+};
 
-uint32_t data_bits = 20; // number of data bits
-static inline bool cmd_read(uint32_t data){ return(!!(data & 0x80000000));};  // check read bit
-static inline uint32_t cmd_address (uint32_t data) {return((data & 0x7FF00000)>> 20);};
-static inline uint32_t cmd_data (uint32_t data){return(data & 0xFFFFF);};  
-static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data )
-    {return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );};
+static inline uint32_t cmd_data(uint32_t data)
+{
+    return(data & 0xFFFFF);
+};  
 
-    
-// Firmware version. Coded in HEX, 1 byte per digit.
-// For example: Version R2.3.1 will be 0x020301
-uint32_t firmware_version = 0x010100;
+static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data)
+{
+    return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );
+};
 
-// *****************************************************************************
-// Taken from ccard.c
-uint32_t relay; 
-uint32_t response; // return from card for testing
-uint32_t cycle_count=0;
-uint32_t last_cycle_count = 0;
-uint32_t count_increment = 100000;
-uint32_t command_count = 0;
+// Variables used as register maps
+uint32_t firmware_version;  // Firmware version
+uint32_t status;            // Status register
+uint32_t relay;             // TES relays control
+uint32_t hemt_bias;         // HEMT bias value
+uint32_t a50k_bias;         // 50K bias value
+uint32_t temperature;       // Temperature value
+uint32_t cycle_count;       // Cycles counts
+uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
+uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
+uint32_t id_volt;           // ID voltage value
 
-uint32_t command; // command from controller
-uint32_t addr;
-uint32_t default_addr = 0x00; // used until set to some specific value,
-uint32_t data;
-bool rd;  // read / write data
-
-bool relay_busy = false; 
-
-#define num_test_commands 100
-uint32_t CMD[num_test_commands];
-uint32_t status = 0; 
-uint32_t return_data; 
-uint32_t *regptr[ADDR_COUNT];  // will hold pointers to various registers
-
-uint32_t adc_data[16];
-uint32_t hemt_bias;
-uint32_t a50k_bias;
-uint32_t temperature;
-
-uint32_t n;
-
-uint32_t ps_en;     // Power supplies (HEMT and 50k) enable
-uint32_t ac_dc_status; // AC/DC mode relay status
+uint32_t default_addr;        // Address used when an invalid address is received
+uint32_t *regptr[ADDR_COUNT]; // will hold pointers to various registers
 
 // *****************************************************************************
 /* Application Data
@@ -182,7 +173,6 @@ void CCARD_Initialize ( void )
     /* Place the App state machine in its initial state. */
     ccardData.state = CCARD_STATE_INIT;
 
-    
     TXbuffer[0] = 0;
 }
 
@@ -204,72 +194,73 @@ void CCARD_Tasks ( void )
         /* Application's initial state. */
         case CCARD_STATE_INIT:
         {
-            bool appInitialized = true;
-       
-        
-            if (appInitialized)
-            {
-                cycle_count = 0;
-                relay = RELAY_DEFAULT; // clear all relays
-                TES_relay_set(relay); // set relays to default
-                relay_busy = true;
-                ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer
+            // Set initial register values
+            firmware_version  = FIRMWARE_VERSION; // Set firmware version value
+            status            = 0;                // Clear status word
+            relay             = RELAY_DEFAULT;    // Initial relay state
+            cycle_count       = 0;                // Clear cycle counter
+            ps_en             = 0;                // Power supplies are disabled
+            flux_ramp_control = 0;                // Flux ramp are DC coupled
+            default_addr      = 0x00;             // Used until set to some specific value
 
-                // Disable power supplies
-                PS_HEMT_ENOff();
-                PS_50k_ENOff();
+            // Set TES relays to default value
+            TES_relay_set(relay);
 
-                // set up register map
-                regptr[ADDR_VERSION] = &firmware_version; //read back relays by default
-                regptr[ADDR_STATUS] = &status;
-                regptr[ADDR_RELAY] = &relay; 
-                regptr[ADDR_HEMT_BIAS] = &hemt_bias;
-                regptr[ADDR_50K_BIAS] = &a50k_bias;
-                regptr[ADDR_TEMPERATURE] = &temperature; 
-                regptr[ADDR_COUNTER] = &cycle_count;
-                regptr[ADDR_PS_EN] = &ps_en;
-                regptr[ADDR_AC_DC_STATUS] = &ac_dc_status;
-                 
-                SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );  // this is the SPI used for receiving commands
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle,(SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0);// read buffer
-                
-                DRV_ADC_Open();
-                DRV_ADC_Start(); // start ADC running
-                
-                ccardData.state = CCARD_STATE_SERVICE_TASKS;
-            }
+            // Disable power supplies
+            PS_HEMT_ENOff();
+            PS_50k_ENOff();
+
+            // Set flux ramps to DC coupled state
+            FluxRampVoltModeOff();
+            FluxRampCurrModeOff();
+
+            // set up register map
+            regptr[ADDR_VERSION]      = &firmware_version;
+            regptr[ADDR_STATUS]       = &status;
+            regptr[ADDR_RELAY]        = &relay;
+            regptr[ADDR_HEMT_BIAS]    = &hemt_bias;
+            regptr[ADDR_50K_BIAS]     = &a50k_bias;
+            regptr[ADDR_TEMPERATURE]  = &temperature;
+            regptr[ADDR_COUNTER]      = &cycle_count;
+            regptr[ADDR_PS_EN]        = &ps_en;
+            regptr[ADDR_FLUX_RAMP]    = &flux_ramp_control;
+            regptr[ADDR_ID_VOLT]      = &id_volt;
+
+            // this is the SPI used for receiving commands
+            SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
+
+            // read buffer
+            Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                    SPIHandle,
+                    (SPI_DATA_TYPE *)& TXbuffer[0],
+                    SPI_BYTES,
+                    (SPI_DATA_TYPE *)& RXbuffer[0],
+                    SPI_BYTES,
+                    0,
+                    0);
+
+            DRV_ADC_Open();
+            DRV_ADC_Start(); // start ADC running
+
+            ccardData.state = CCARD_STATE_SERVICE_TASKS;
+            
             break;
         }
 
         case CCARD_STATE_SERVICE_TASKS:
         {
-            if (SYS_TMR_DelayStatusGet(ccardData.hDelayTimer)) // relay timer timed out
-            {
-                ccardData.state = CCARD_RELAY_TIMEOUT; // need to clear relays
-                break;
-            }
             if (DRV_SPI_BUFFER_EVENT_COMPLETE & DRV_SPI_BufferStatus(Read_Buffer_Handle)) // check for SPI data
             {
                 ccardData.state = CCARD_READ_SPI;  // need to read SPI data
                 break;
             }
+            
             if (DRV_ADC_SamplesAvailable())
             {
                ccardData.state = CCARD_READ_ADC;
                 break;
             }
-            break;
-        }
-        
-        case CCARD_RELAY_TIMEOUT:  // reset relays for latching mode of operation
-        {
-            if (RELAY_LATCHING)
-            {
-                TES_relay_clear(); // clears relay drive
-            }
-            relay_busy = false;  // relay done 
-            relay = relay & ((1 << (data_bits-1))-1);  // clear relay busy bit
-            ccardData.state = CCARD_STATE_SERVICE_TASKS;
+            
             break;
         }
 
@@ -277,50 +268,76 @@ void CCARD_Tasks ( void )
         case CCARD_READ_SPI:  // this is where we receive commands
         {
             cycle_count++;
-            command = RXbuffer[0]; // lock in command for decoding
-            rd = cmd_read(command);
-            addr = cmd_address (command);
-            data = cmd_data (command);  
-            ccardData.state = CCARD_STATE_SERVICE_TASKS;   // may be overridden later
-            if (rd)  // read command received.
+            uint32_t command = RXbuffer[0];               // Command from controller
+            bool     rd      = cmd_read(command);         // Read/write flag from command
+            uint32_t addr    = cmd_address(command);      // Register address from command
+            uint32_t data    = cmd_data(command);         // Register data from command 
+            ccardData.state  = CCARD_STATE_SERVICE_TASKS; // May be overridden later
+            
+            if (rd)
             {                
+                // Read command received.
+                
                 if (addr < ADDR_COUNT)  // address in range
                 {
-                    // If we are reading the AC/DC mode relays status, update the
-                    // status work with the readback value
-                    if (addr == ADDR_AC_DC_STATUS)
-                    {
-                        ac_dc_status = (FRP_RLYStateGet() << 1) | FRN_RLYStateGet();
-                    }
                     TXbuffer[0] = make_cmd(0,  addr, *regptr[addr] );
-                  //  TXbuffer[0] = 0x01;
+                    //TXbuffer[0] = 0x01;
                     default_addr = addr; // this is now the default read back. 
-                } else
+                } 
+                else
                 {
                     TXbuffer[0] = make_cmd(0, default_addr, *regptr[default_addr]);
                 }
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
+                
+                // start new data read
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                        SPIHandle,
+                        (SPI_DATA_TYPE *)& TXbuffer[0], 
+                        SPI_BYTES, 
+                        (SPI_DATA_TYPE *)& RXbuffer[0], 
+                        SPI_BYTES,
+                        0,
+                        0);
             }
-            else // write command
+            else
             { 
-                TXbuffer[0] = make_cmd(0,  default_addr, *regptr[default_addr] );
+                // Write command received.
+                
+                TXbuffer[0] = make_cmd(0, default_addr, *regptr[default_addr]);
                 //TXbuffer[0] = 0x01;
+                
                 switch (addr)
                 {
                     case ADDR_RELAY:
                     {
                         relay = data | (1 << (data_bits -1)); // set bit to show that relays are in motion
-                        if (relay_busy) break;  // just ignore if relay already busy 
-                        relay_busy = true;
                         TES_relay_set(relay); // set relays to default
-                        ccardData.hDelayTimer = SYS_TMR_DelayMS(RELAY_DELAY); // start relay timer 
                         break;
                     }
                     case ADDR_PS_EN:
                     {
-                        ps_en = data & 0x03;  // Only 2 bits are used
-                        PS_HEMT_ENStateSet( ps_en & 0x01 );        // HEMT_EN
-                        PS_50k_ENStateSet( ( ps_en >> 1 ) & 0x01 );  // 50k_EN
+                        // Only 2 bits are used
+                        ps_en = data & 0x03;
+
+                        // HEMT_EN (bit 0)
+                        PS_HEMT_ENStateSet( ps_en & 0x01 );
+
+                        // 50k_EN (bit 1)
+                        PS_50k_ENStateSet( ( ps_en >> 1 ) & 0x01 );
+
+                        break;
+                    }
+                    case ADDR_FLUX_RAMP:
+                    {
+                        // Only 2 bits are used
+                        flux_ramp_control = data & 0x03;
+
+                        // Voltage mode flux ramp control (bit 0)
+                        FluxRampVoltModeStateSet( flux_ramp_control & 0x01 );
+
+                        // Current mode flux ramp control (bit 1)
+                        FluxRampCurrModeStateSet( ( flux_ramp_control >> 1 ) & 0x01 );
+
                         break;
                     }
                     default:
@@ -328,22 +345,71 @@ void CCARD_Tasks ( void )
                         break;
                     }    
                 }
-                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(SPIHandle, (SPI_DATA_TYPE *)& TXbuffer[0], SPI_BYTES, (SPI_DATA_TYPE *)& RXbuffer[0], SPI_BYTES,0,0); // start new data read
+                Read_Buffer_Handle = DRV_SPI_BufferAddWriteRead(
+                        SPIHandle, 
+                        (SPI_DATA_TYPE *)& TXbuffer[0], 
+                        SPI_BYTES, 
+                        (SPI_DATA_TYPE *)& RXbuffer[0], 
+                        SPI_BYTES,
+                        0,
+                        0); // start new data read
             }
             break;
         }
         
         case CCARD_READ_ADC:
         {
+            uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
+            uint32_t n;
+
             DRV_ADC_Stop();
-            for (n = 0; n < 16; n++) { adc_data[n] = DRV_ADC_SamplesRead(n);}  // KLUDGE< first points seem bad!
-            DRV_ADC_Start(); // start ADC running again
-            hemt_bias = 0;
-            a50k_bias = 0;
-            temperature = 0; // average 5 samples each
-            for (n = ADC_HEMT_BIAS_CHAN; n < 15; n = n + 3) {hemt_bias += adc_data[n];}
-            for (n = ADC_50K_BIAS_CHAN; n < 15; n = n + 3) {a50k_bias += adc_data[n];}
-            for (n = ADC_TEMPERATURE_CHAN; n < 15; n = n + 3) {temperature += adc_data[n];}        
+            
+            // KLUDGE< first points seem bad!
+            for ( n = 0;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1;
+                  n++)
+            { 
+                adc_data[n] = DRV_ADC_SamplesRead(n);
+            }  
+            
+            // start ADC running again
+            DRV_ADC_Start();
+            
+            // Average 'ADC_CHAN_SAMPLE_COUNT' samples per channel. The average 
+            // is done in software, here we just accumulate the samples.
+            hemt_bias   = 0;
+            a50k_bias   = 0;
+            temperature = 0;
+            id_volt     = 0;
+            
+            for ( n = ADC_HEMT_BIAS_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
+            {
+                hemt_bias += adc_data[n];
+            }
+            
+            for ( n = ADC_50K_BIAS_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
+            {
+                a50k_bias += adc_data[n];
+            }
+            
+            for ( n = ADC_TEMPERATURE_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
+            {
+                temperature += adc_data[n];
+            }
+            
+            for ( n = ADC_ID_VOLT_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
+            {
+                id_volt += adc_data[n];
+            }
+
             ccardData.state = CCARD_STATE_SERVICE_TASKS;
             break;
          }   

@@ -75,11 +75,8 @@ extern "C" {
 
 // *****************************************************************************
 // Global, external variable
-extern uint32_t tes_reset_port[NUM_TES_CHANNELS];
-extern uint32_t tes_reset_bit[NUM_TES_CHANNELS];
-extern uint32_t tes_set_port[NUM_TES_CHANNELS];
-extern uint32_t tes_set_bit[NUM_TES_CHANNELS];
-extern bool RELAY_LATCHING;
+extern uint32_t tes_port[NUM_TES_CHANNELS];
+extern uint32_t tes_bit[NUM_TES_CHANNELS];
 
 // *****************************************************************************
 /* Application states
@@ -97,7 +94,6 @@ typedef enum
 	/* Application's state machine's initial state. */
 	CCARD_STATE_INIT=0,
 	CCARD_STATE_SERVICE_TASKS,
-    CCARD_RELAY_TIMEOUT,
     CCARD_READ_SPI,
     CCARD_READ_ADC, // ADC data ready
             
@@ -121,8 +117,6 @@ typedef struct
 {
     /* The application's current state */
     CCARD_STATES state;
-
-    SYS_TMR_HANDLE hDelayTimer;
     
 } CCARD_DATA;
 
