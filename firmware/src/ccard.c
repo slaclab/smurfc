@@ -102,16 +102,21 @@ static inline uint32_t make_cmd(bool read, uint32_t address, uint32_t data)
     return((read << 31) | ((address & (1 << (32-data_bits-1))-1) << data_bits) | (data & ((1 <<data_bits)-1)) );
 };
 
-    
+// Variables used as register maps
 // Firmware version. Coded in HEX, 1 byte per digit.
 // For example: Version R2.3.1 will be 0x020301
 uint32_t firmware_version = 0x010100;
-
-// *****************************************************************************
-// Taken from ccard.c
+uint32_t status           = 0; 
 uint32_t relay; 
+uint32_t hemt_bias;
+uint32_t a50k_bias;
+uint32_t temperature;
+uint32_t cycle_count      = 0;
+uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
+uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
+uint32_t id_volt;
+
 uint32_t response; // return from card for testing
-uint32_t cycle_count=0;
 uint32_t last_cycle_count = 0;
 uint32_t count_increment = 100000;
 uint32_t command_count = 0;
@@ -122,19 +127,12 @@ uint32_t default_addr = 0x00; // used until set to some specific value,
 uint32_t data;
 bool rd;  // read / write data
 
-uint32_t status = 0; 
 uint32_t *regptr[ADDR_COUNT];  // will hold pointers to various registers
 
 uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
-uint32_t hemt_bias;
-uint32_t a50k_bias;
-uint32_t temperature;
-uint32_t id_volt;
 
 uint32_t n;
 
-uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
-uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
 
 // *****************************************************************************
 /* Application Data
