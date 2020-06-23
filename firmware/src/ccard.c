@@ -115,18 +115,8 @@ uint32_t cycle_count      = 0;
 uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
 uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls
 uint32_t id_volt;
-
-// Variables used to handle the SPI communication
-uint32_t command;             // command from controller
-uint32_t addr;                // register address
 uint32_t default_addr = 0x00; // used until set to some specific value,
-uint32_t data;                // register data
-bool     rd;                  // read/write flag
 uint32_t *regptr[ADDR_COUNT]; // will hold pointers to various registers
-
-uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
-uint32_t n;
-
 
 // *****************************************************************************
 /* Application Data
@@ -272,11 +262,11 @@ void CCARD_Tasks ( void )
         case CCARD_READ_SPI:  // this is where we receive commands
         {
             cycle_count++;
-            command         = RXbuffer[0]; // lock in command for decoding
-            rd              = cmd_read(command);
-            addr            = cmd_address(command);
-            data            = cmd_data(command);  
-            ccardData.state = CCARD_STATE_SERVICE_TASKS;   // may be overridden later
+            uint32_t command = RXbuffer[0];               // Command from controller
+            bool     rd      = cmd_read(command);         // Read/write flag from command
+            uint32_t addr    = cmd_address(command);      // Register address from command
+            uint32_t data    = cmd_data(command);         // Register data from command 
+            ccardData.state  = CCARD_STATE_SERVICE_TASKS; // May be overridden later
             
             if (rd)
             {                
@@ -363,6 +353,9 @@ void CCARD_Tasks ( void )
         
         case CCARD_READ_ADC:
         {
+            uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
+            uint32_t n;
+
             DRV_ADC_Stop();
             
             // KLUDGE< first points seem bad!
