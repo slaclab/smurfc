@@ -264,11 +264,14 @@ extern "C" {
 #define APP_SPI_CS_SELECT()   SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
 #define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
 
+// ADC channels configurations
 // NOTE,Harmony always reads ADC channels in numerical order
-#define ADC_50K_BIAS_CHAN    0  // AN3
-#define ADC_TEMPERATURE_CHAN 1  // AN4
-#define ADC_HEMT_BIAS_CHAN   2  // AN5
-#define ADC_ID_VOLT_CHAN     3  // AN6
+#define ADC_50K_BIAS_CHAN     0  // AN3
+#define ADC_TEMPERATURE_CHAN  1  // AN4
+#define ADC_HEMT_BIAS_CHAN    2  // AN5
+#define ADC_ID_VOLT_CHAN      3  // AN6
+#define ADC_CHAN_COUNT        4  // Number of ADC channels in use
+#define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
 
 // SPI Function addresses 
 #define ADDR_VERSION      0x00 // return the firmware version number, no write 

@@ -128,7 +128,7 @@ uint32_t status = 0;
 uint32_t return_data; 
 uint32_t *regptr[ADDR_COUNT];  // will hold pointers to various registers
 
-uint32_t adc_data[21];
+uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
 uint32_t hemt_bias;
 uint32_t a50k_bias;
 uint32_t temperature;
@@ -377,7 +377,9 @@ void CCARD_Tasks ( void )
             DRV_ADC_Stop();
             
             // KLUDGE< first points seem bad!
-            for (n = 0; n < 21; n++)
+            for ( n = 0;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1;
+                  n++)
             { 
                 adc_data[n] = DRV_ADC_SamplesRead(n);
             }  
@@ -385,29 +387,37 @@ void CCARD_Tasks ( void )
             // start ADC running again
             DRV_ADC_Start();
             
-            // Average 5 samples each. The average is done in software, here
-            // we just accumulate 5 samples.
+            // Average 'ADC_CHAN_SAMPLE_COUNT' samples per channel. The average 
+            // is done in software, here we just accumulate the samples.
             hemt_bias   = 0;
             a50k_bias   = 0;
             temperature = 0;
             id_volt     = 0;
             
-            for (n = ADC_HEMT_BIAS_CHAN; n < 20; n = n + 4)
+            for ( n = ADC_HEMT_BIAS_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
             {
                 hemt_bias += adc_data[n];
             }
             
-            for (n = ADC_50K_BIAS_CHAN; n < 20; n = n + 4)
+            for ( n = ADC_50K_BIAS_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
             {
                 a50k_bias += adc_data[n];
             }
             
-            for (n = ADC_TEMPERATURE_CHAN; n < 20; n = n + 4)
+            for ( n = ADC_TEMPERATURE_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
             {
                 temperature += adc_data[n];
             }
             
-            for (n = ADC_ID_VOLT_CHAN; n < 20; n = n + 4)
+            for ( n = ADC_ID_VOLT_CHAN;
+                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
+                  n += ADC_CHAN_COUNT)
             {
                 id_volt += adc_data[n];
             }
