@@ -288,7 +288,7 @@ extern "C" {
     
 // Firmware version. Coded in HEX, 1 byte per digit.
 // For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x010100
+#define FIRMWARE_VERSION 0x020000   // R2.0.0
     
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
