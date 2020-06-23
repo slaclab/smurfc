@@ -265,9 +265,10 @@ extern "C" {
 #define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
 
 // NOTE,Harmony always reads ADC channels in numerical order
-#define ADC_50K_BIAS_CHAN    0
-#define ADC_TEMPERATURE_CHAN 1
-#define ADC_HEMT_BIAS_CHAN   2
+#define ADC_50K_BIAS_CHAN    0  // AN3
+#define ADC_TEMPERATURE_CHAN 1  // AN4
+#define ADC_HEMT_BIAS_CHAN   2  // AN5
+#define ADC_ID_VOLT_CHAN     3  // AN6
 
 // SPI Function addresses 
 #define ADDR_VERSION      0x00 // return the firmware version number, no write 
@@ -279,7 +280,8 @@ extern "C" {
 #define ADDR_COUNTER      0x06 // return the cycle counts, no write
 #define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_FLUX_RAMP    0x08 // Flux ramp controls
-#define ADDR_COUNT           9 // number of addreses
+#define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
+#define ADDR_COUNT          10 // number of addreses
     
     
 //DOM-IGNORE-BEGIN

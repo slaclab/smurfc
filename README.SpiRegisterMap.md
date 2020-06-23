@@ -17,3 +17,4 @@ This file describe the register map accessible trough the SPI bus.
 | 0x06    | Read-only  | Cycle counts. Return the number of SPI read operations.
 | 0x07    | Read/Write | Power supply enables, 2 bits:<ul><li>bit 0 : HEMT</li><li>bit 1 : 50K</li></ul>
 | 0x08    | Read/Write | Flux ramp controls, 2 bits:<ul><li>bit 0 : Voltage mode</li><li>bit 1 : Current mode</li></ul>
+| 0x09    | Read-only  | ID voltage value.
