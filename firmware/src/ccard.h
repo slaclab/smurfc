@@ -88,12 +88,6 @@ extern "C" {
 #define ADC_CHAN_COUNT        4  // Number of ADC channels in use
 #define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
 
-// setup SPI chip select ports
-#define SPI_CS_PORT_ID        PORT_CHANNEL_G
-#define SPI_CS_PORT_PIN       PORTS_BIT_POS_9
-#define APP_SPI_CS_SELECT()   SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
-#define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
-
 // SPI Function addresses
 #define ADDR_VERSION      0x00 // return the firmware version number, no write
 #define ADDR_STATUS       0x01 // returns status register, no write
