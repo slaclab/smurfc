@@ -91,7 +91,7 @@ extern "C" {
 #define SYS_PORT_AD1PCFG        ~0xffff
 #define SYS_PORT_CNPUE          0x0
 #define SYS_PORT_CNEN           0x0
-#define SYS_PORT_A_TRIS         0x3F00
+#define SYS_PORT_A_TRIS         0x3F3F
 #define SYS_PORT_A_LAT          0x0000
 #define SYS_PORT_A_ODC          0x0000
 
@@ -99,23 +99,23 @@ extern "C" {
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
 
-#define SYS_PORT_C_TRIS         0x9FFF
+#define SYS_PORT_C_TRIS         0xFFFF
 #define SYS_PORT_C_LAT          0x0000
 #define SYS_PORT_C_ODC          0x0000
 
-#define SYS_PORT_D_TRIS         0xC000
+#define SYS_PORT_D_TRIS         0xF0FE
 #define SYS_PORT_D_LAT          0x0000
 #define SYS_PORT_D_ODC          0x0000
 
-#define SYS_PORT_E_TRIS         0xFF00
-#define SYS_PORT_E_LAT          0x0020
+#define SYS_PORT_E_TRIS         0xFF1C
+#define SYS_PORT_E_LAT          0x0000
 #define SYS_PORT_E_ODC          0x0000
 
 #define SYS_PORT_F_TRIS         0xFFFC
 #define SYS_PORT_F_LAT          0x0000
 #define SYS_PORT_F_ODC          0x0000
 
-#define SYS_PORT_G_TRIS         0x0DFF
+#define SYS_PORT_G_TRIS         0x7FFF
 #define SYS_PORT_G_LAT          0x0000
 #define SYS_PORT_G_ODC          0x0000
 
@@ -222,33 +222,33 @@ extern "C" {
 // *****************************************************************************
 /*** Application Defined Pins ***/
 
-/*** Power supply enable pins ***/
-// HEMT (Vd_HEMT_EN) [RE6]
-#define PS_HEMT_ENToggle()              PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENOn()                  PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENOff()                 PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENStateGet()            PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENStateSet(value)       PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, value )
-// 50k (Vd_50k_EN) [RE7]
-#define PS_50k_ENToggle()               PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENOn()                   PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENOff()                  PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENStateGet()             PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENStateSet(value)        PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, value )
+/*** Functions for FluxRampVoltMode pin ***/
+#define FluxRampVoltModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, Value)
 
-/*** Flux ramp control pins ***/
-// Voltage mode (V_AC_SW) [RG15]
-#define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, value )
-// Current mode (I_DC_SW) [RE5]
-#define FluxRampCurrModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, value )
+/*** Functions for FluxRampCurrMode pin ***/
+#define FluxRampCurrModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, Value)
+
+/*** Functions for PS_HEMT_EN pin ***/
+#define PS_HEMT_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, Value)
+
+/*** Functions for PS_50k_EN pin ***/
+#define PS_50k_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
 
 // *****************************************************************************
 // *****************************************************************************
