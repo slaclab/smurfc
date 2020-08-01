@@ -69,9 +69,43 @@ extern "C" {
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Type Definitions
+// Section: Constants
 // *****************************************************************************
 // *****************************************************************************
+// Firmware version. Coded in HEX, 1 byte per digit.
+// For example: Version R2.3.1 will be 0x020301
+#define FIRMWARE_VERSION 0x020000   // R2.0.0
+
+// Number of TES relays
+#define NUM_TES_CHANNELS 12
+
+// ADC channels configurations
+// NOTE,Harmony always reads ADC channels in numerical order (ANxx)
+#define ADC_50K_BIAS_CHAN     0  // AN3
+#define ADC_TEMPERATURE_CHAN  1  // AN4
+#define ADC_HEMT_BIAS_CHAN    2  // AN5
+#define ADC_ID_VOLT_CHAN      3  // AN6
+#define ADC_CHAN_COUNT        4  // Number of ADC channels in use
+#define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
+
+// setup SPI chip select ports
+#define SPI_CS_PORT_ID        PORT_CHANNEL_G
+#define SPI_CS_PORT_PIN       PORTS_BIT_POS_9
+#define APP_SPI_CS_SELECT()   SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
+#define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
+
+// SPI Function addresses
+#define ADDR_VERSION      0x00 // return the firmware version number, no write
+#define ADDR_STATUS       0x01 // returns status register, no write
+#define ADDR_RELAY        0x02 // relay address
+#define ADDR_HEMT_BIAS    0x03 // returns the HEMT bias value, no write
+#define ADDR_50K_BIAS     0x04 // returns the 50K bias value, no write
+#define ADDR_TEMPERATURE  0x05 // returns the temperature value, no write
+#define ADDR_COUNTER      0x06 // return the cycle counts, no write
+#define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
+#define ADDR_FLUX_RAMP    0x08 // Flux ramp controls
+#define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
+#define ADDR_COUNT          10 // number of addreses
 
 // *****************************************************************************
 // Global, external variable
