@@ -180,7 +180,6 @@
         <Name dnOrder="0">system_init.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">1040B144681CD5788A82D4254A55FAA0</Checksum>
-        <ProjectFileChecksum dnOrder="3">456BE113EE0230B2C25CC0C8E3C57FBB</ProjectFileChecksum>
       </Template>
       <Template dnOrder="2">
         <Name dnOrder="0">main.c</Name>
