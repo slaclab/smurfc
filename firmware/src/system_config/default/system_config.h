@@ -250,6 +250,9 @@ extern "C" {
 #define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
     
+
+/*** Application Instance 0 Configuration ***/
+
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
 }
