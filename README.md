@@ -11,9 +11,14 @@ The code was developed using Microchip's MPLAB X and the MPLAB Harmony Configura
 ## Software package versions
 
 The current version of the software tool used are:
-- MPLAB X: v5.15
-- HMC: v2.06
-- XC32: v1.42 on Windows 10 and v2.15 on macOS 10.13.6
+- On macOS 10.15.6
+  - MPLAB X: v5.40
+  - HMC: v2.06
+  - XC32: v2.41
+- On Windows 10:
+  - MPLAB X: v5.15
+  - HMC: v2.06
+  - XC32: v1.42
 
 ## How to clone this code
 
