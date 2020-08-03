@@ -35,6 +35,12 @@ C:\microchip\harmony\v2_06\apps\
 /Users/<YOUR_USER_NAME>/microchip/harmony/v2_06/apps
 ```
 
-## SPI bus register map
+## Versioning
 
-The register map is describe in [README.SpiRegisterMap.md](README.SpiRegisterMap.md).
+The SPI register `0x00` contains the firmware version coded as 24-bit word. The version contains 6 digits; each digit is coded as a 4-bit HEX number. For example version `R2.3.1` will be expressed as `0x020301`.
+
+This values is defined as a macro in [ccard.h](src/ccard.h), and must be manually updated every time a new tagged version of this repository is built and released.
+
+## SPI protocol
+
+The SPI protocol and its register map is described in [README.SpiRegisterMap.md](README.SpiRegisterMap.md).
