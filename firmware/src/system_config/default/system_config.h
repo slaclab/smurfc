@@ -91,7 +91,7 @@ extern "C" {
 #define SYS_PORT_AD1PCFG        ~0xffff
 #define SYS_PORT_CNPUE          0x0
 #define SYS_PORT_CNEN           0x0
-#define SYS_PORT_A_TRIS         0x3F3F
+#define SYS_PORT_A_TRIS         0x3F37
 #define SYS_PORT_A_LAT          0x0000
 #define SYS_PORT_A_ODC          0x0000
 
@@ -249,7 +249,12 @@ extern "C" {
 #define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
-    
+
+/*** Functions for MSTAT pin ***/
+#define MSTAT_PORT PORT_CHANNEL_A
+#define MSTAT_PIN PORTS_BIT_POS_3
+#define MSTAT_PIN_MASK (0x1 << 3)
+
 
 /*** Application Instance 0 Configuration ***/
 
