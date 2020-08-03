@@ -4,7 +4,21 @@
 
 This file describe the register map accessible trough the SPI bus.
 
-## register map
+## SPI protocol
+
+Each command send through the SPI bus must contain a 32-bit payload, with the following format:
+
+| 1 bit     | 11 bits | 20 bits
+|-----------|---------|--------
+| read flag | address | data
+
+The MSB bit is the `read` flag. When this flag is set, indicates that the command is a read request. Otherwise it indicates that the command is a write request.
+
+A write command will write the `data` field into the register pointed by the `address` field.
+
+For a read command, the `data` field is ignored. To get the content of the register pointed by the `address` filed, a second identical read command must be send. The return packet's `data` filed will contain the requested data.
+
+## Register map
 
 | Address | Mode       | Description
 |---------|------------|-----------------
