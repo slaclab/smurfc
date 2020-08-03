@@ -322,8 +322,11 @@ void CCARD_Tasks ( void )
                 {
                     case ADDR_RELAY:
                     {
-                        relay = data | (1 << (data_bits -1)); // set bit to show that relays are in motion
-                        TES_relay_set(relay); // set relays to default
+                        // Only NUM_TES_CHANNELS bits are used.
+                        relay = data & ((1 << NUM_TES_CHANNELS) - 1);
+
+                        // Set the relay  mask
+                        TES_relay_set(relay);
                         break;
                     }
                     case ADDR_PS_EN:
