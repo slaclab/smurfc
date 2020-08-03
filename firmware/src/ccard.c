@@ -117,6 +117,13 @@ uint32_t id_volt;           // ID voltage value
 uint32_t default_addr;        // Address used when an invalid address is received
 uint32_t *regptr[ADDR_COUNT]; // will hold pointers to various registers
 
+// Accumulator variables used to average the ADC readings
+uint32_t adc_samples_cnt;   // Number of ADC samples accumulated
+uint32_t hemt_bias_acc;     // HEMT bias accumulator
+uint32_t a50k_bias_acc;     // 50K bias accumulator
+uint32_t temperature_acc;   // Temperature accumulator
+uint32_t id_volt_acc;       // ID voltage accumulator
+
 // *****************************************************************************
 /* Application Data
 
@@ -239,8 +246,12 @@ void CCARD_Tasks ( void )
                     0,
                     0);
 
+            // Reset the number of accumulated ADC samples
+            adc_samples_cnt = 0;
+
+            // Start ADC
             DRV_ADC_Open();
-            DRV_ADC_Start(); // start ADC running
+            DRV_ADC_Start();
 
             ccardData.state = CCARD_STATE_SERVICE_TASKS;
             
@@ -257,7 +268,8 @@ void CCARD_Tasks ( void )
             
             if (DRV_ADC_SamplesAvailable())
             {
-               ccardData.state = CCARD_READ_ADC;
+                DRV_ADC_Stop();
+                ccardData.state = CCARD_READ_ADC;
                 break;
             }
             
@@ -359,55 +371,32 @@ void CCARD_Tasks ( void )
         
         case CCARD_READ_ADC:
         {
-            uint32_t adc_data[ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1];
-            uint32_t n;
+            
+            // Accumulate the ADC values
+            a50k_bias_acc   += DRV_ADC_SamplesRead(ADC_50K_BIAS_CHAN);
+            temperature_acc += DRV_ADC_SamplesRead(ADC_TEMPERATURE_CHAN);
+            hemt_bias_acc   += DRV_ADC_SamplesRead(ADC_HEMT_BIAS_CHAN);
+            id_volt_acc     += DRV_ADC_SamplesRead(ADC_ID_VOLT_CHAN);
 
-            DRV_ADC_Stop();
-            
-            // KLUDGE< first points seem bad!
-            for ( n = 0;
-                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT + 1;
-                  n++)
-            { 
-                adc_data[n] = DRV_ADC_SamplesRead(n);
-            }  
-            
             // start ADC running again
             DRV_ADC_Start();
             
-            // Average 'ADC_CHAN_SAMPLE_COUNT' samples per channel. The average 
-            // is done in software, here we just accumulate the samples.
-            hemt_bias   = 0;
-            a50k_bias   = 0;
-            temperature = 0;
-            id_volt     = 0;
-            
-            for ( n = ADC_HEMT_BIAS_CHAN;
-                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
-                  n += ADC_CHAN_COUNT)
+            if (++adc_samples_cnt >= ADC_CHAN_SAMPLE_COUNT)       
             {
-                hemt_bias += adc_data[n];
-            }
-            
-            for ( n = ADC_50K_BIAS_CHAN;
-                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
-                  n += ADC_CHAN_COUNT)
-            {
-                a50k_bias += adc_data[n];
-            }
-            
-            for ( n = ADC_TEMPERATURE_CHAN;
-                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
-                  n += ADC_CHAN_COUNT)
-            {
-                temperature += adc_data[n];
-            }
-            
-            for ( n = ADC_ID_VOLT_CHAN;
-                  n < ADC_CHAN_COUNT*ADC_CHAN_SAMPLE_COUNT;
-                  n += ADC_CHAN_COUNT)
-            {
-                id_volt += adc_data[n];
+                // Move the accumulated values to the registers
+                a50k_bias   = a50k_bias_acc;
+                temperature = temperature_acc;
+                hemt_bias   = hemt_bias_acc;
+                id_volt     = id_volt_acc;
+                
+                // Reset accumulators
+                a50k_bias_acc   = 0;
+                temperature_acc = 0;
+                hemt_bias_acc   = 0;
+                id_volt_acc     = 0;
+                
+                // Reset accumulated ADC sample counter
+                adc_samples_cnt = 0;
             }
 
             ccardData.state = CCARD_STATE_SERVICE_TASKS;

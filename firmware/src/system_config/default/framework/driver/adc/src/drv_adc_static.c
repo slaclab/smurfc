@@ -55,7 +55,7 @@ void DRV_ADC_Initialize(void)
     /* Select Clock Source */
     PLIB_ADC_ConversionClockSourceSelect(DRV_ADC_ID_1, ADC_CLOCK_SOURCE_PERIPHERAL_BUS_CLOCK);
     /* Select Clock Prescaler */
-    PLIB_ADC_ConversionClockSet(DRV_ADC_ID_1, SYS_CLK_BUS_PERIPHERAL_1, 1000000);
+    PLIB_ADC_ConversionClockSet(DRV_ADC_ID_1, SYS_CLK_BUS_PERIPHERAL_1, 10000000);
 
     /* Select Power Mode */
     PLIB_ADC_StopInIdleDisable(DRV_ADC_ID_1);
@@ -68,10 +68,12 @@ void DRV_ADC_Initialize(void)
     PLIB_ADC_SampleAutoStartEnable(DRV_ADC_ID_1);
     /* Sample Acquisition Time (Auto Sample Mode) */	
     PLIB_ADC_SampleAcquisitionTimeSet(DRV_ADC_ID_1, 4);
+    /* Stop Conversion Sequence on First Interrupt (Auto Sample Mode) */
+    PLIB_ADC_ConversionStopSequenceEnable(DRV_ADC_ID_1);
     /* Select Sampling Mode */
     PLIB_ADC_SamplingModeSelect(DRV_ADC_ID_1, ADC_SAMPLING_MODE_MUXA);
     /* Number of Samples Per Interrupt */
-    PLIB_ADC_SamplesPerInterruptSelect(DRV_ADC_ID_1, ADC_16SAMPLES_PER_INTERRUPT);
+    PLIB_ADC_SamplesPerInterruptSelect(DRV_ADC_ID_1, ADC_4SAMPLES_PER_INTERRUPT);
 
     /* Conversion Selections */
     /* Select Trigger Source */
@@ -87,7 +89,7 @@ void DRV_ADC_Initialize(void)
  
 /*scan enable*/
     /* Select Scan Input 0 */
-    PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN5);
+    PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN6);
     
     /* Enable Scan mode */
     PLIB_ADC_MuxAInputScanEnable(DRV_ADC_ID_1);
@@ -96,7 +98,7 @@ void DRV_ADC_Initialize(void)
  
 /*scan enable*/
     /* Select Scan Input 1 */
-    PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN4);
+    PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN5);
     
     /* Enable Scan mode */
     PLIB_ADC_MuxAInputScanEnable(DRV_ADC_ID_1);
@@ -105,6 +107,15 @@ void DRV_ADC_Initialize(void)
  
 /*scan enable*/
     /* Select Scan Input 2 */
+    PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN4);
+    
+    /* Enable Scan mode */
+    PLIB_ADC_MuxAInputScanEnable(DRV_ADC_ID_1);
+
+ 
+ 
+/*scan enable*/
+    /* Select Scan Input 3 */
     PLIB_ADC_InputScanMaskAdd(DRV_ADC_ID_1, ADC_INPUT_SCAN_AN3);
     
     /* Enable Scan mode */

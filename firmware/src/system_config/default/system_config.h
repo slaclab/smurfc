@@ -91,7 +91,7 @@ extern "C" {
 #define SYS_PORT_AD1PCFG        ~0xffff
 #define SYS_PORT_CNPUE          0x0
 #define SYS_PORT_CNEN           0x0
-#define SYS_PORT_A_TRIS         0x3F00
+#define SYS_PORT_A_TRIS         0x3F37
 #define SYS_PORT_A_LAT          0x0000
 #define SYS_PORT_A_ODC          0x0000
 
@@ -99,23 +99,23 @@ extern "C" {
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
 
-#define SYS_PORT_C_TRIS         0x9FFF
+#define SYS_PORT_C_TRIS         0xFFFF
 #define SYS_PORT_C_LAT          0x0000
 #define SYS_PORT_C_ODC          0x0000
 
-#define SYS_PORT_D_TRIS         0xC000
+#define SYS_PORT_D_TRIS         0xF0FE
 #define SYS_PORT_D_LAT          0x0000
 #define SYS_PORT_D_ODC          0x0000
 
-#define SYS_PORT_E_TRIS         0xFF00
-#define SYS_PORT_E_LAT          0x0020
+#define SYS_PORT_E_TRIS         0xFF1C
+#define SYS_PORT_E_LAT          0x0000
 #define SYS_PORT_E_ODC          0x0000
 
 #define SYS_PORT_F_TRIS         0xFFFC
 #define SYS_PORT_F_LAT          0x0000
 #define SYS_PORT_F_ODC          0x0000
 
-#define SYS_PORT_G_TRIS         0x0DFF
+#define SYS_PORT_G_TRIS         0x7FFF
 #define SYS_PORT_G_LAT          0x0000
 #define SYS_PORT_G_ODC          0x0000
 
@@ -222,74 +222,42 @@ extern "C" {
 // *****************************************************************************
 /*** Application Defined Pins ***/
 
-/*** Power supply enable pins ***/
-// HEMT (Vd_HEMT_EN) [RE6]
-#define PS_HEMT_ENToggle()              PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENOn()                  PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENOff()                 PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENStateGet()            PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6 )
-#define PS_HEMT_ENStateSet(value)       PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, value )
-// 50k (Vd_50k_EN) [RE7]
-#define PS_50k_ENToggle()               PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENOn()                   PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENOff()                  PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENStateGet()             PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7 )
-#define PS_50k_ENStateSet(value)        PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, value )
+/*** Functions for FluxRampVoltMode pin ***/
+#define FluxRampVoltModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+#define FluxRampVoltModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, Value)
 
-/*** Flux ramp control pins ***/
-// Voltage mode (V_AC_SW) [RG15]
-#define FluxRampVoltModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15 )
-#define FluxRampVoltModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, value )
-// Current mode (I_DC_SW) [RE5]
-#define FluxRampCurrModeToggle()        PLIB_PORTS_PinToggle(     PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeOn()            PLIB_PORTS_PinSet(        PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeOff()           PLIB_PORTS_PinClear(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeStateGet()      PLIB_PORTS_PinGetLatched( PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5 )
-#define FluxRampCurrModeStateSet(value) PLIB_PORTS_PinWrite(      PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, value )
+/*** Functions for FluxRampCurrMode pin ***/
+#define FluxRampCurrModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
+#define FluxRampCurrModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, Value)
 
-// *****************************************************************************
-// *****************************************************************************
-// Taken from ccard.h
-// *****************************************************************************
-// *****************************************************************************
-// Number of TES relays
-#define NUM_TES_CHANNELS 12
+/*** Functions for PS_HEMT_EN pin ***/
+#define PS_HEMT_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+#define PS_HEMT_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6, Value)
 
-// setup SPI chip select ports
-#define SPI_CS_PORT_ID        PORT_CHANNEL_G
-#define SPI_CS_PORT_PIN       PORTS_BIT_POS_9
-#define APP_SPI_CS_SELECT()   SYS_PORTS_PinClear(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
-#define APP_SPI_CS_DESELECT() SYS_PORTS_PinSet(PORTS_ID_0, SPI_CS_PORT_ID, SPI_CS_PORT_PIN)
+/*** Functions for PS_50k_EN pin ***/
+#define PS_50k_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+#define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
 
-// ADC channels configurations
-// NOTE,Harmony always reads ADC channels in numerical order
-#define ADC_50K_BIAS_CHAN     0  // AN3
-#define ADC_TEMPERATURE_CHAN  1  // AN4
-#define ADC_HEMT_BIAS_CHAN    2  // AN5
-#define ADC_ID_VOLT_CHAN      3  // AN6
-#define ADC_CHAN_COUNT        4  // Number of ADC channels in use
-#define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
+/*** Functions for MSTAT pin ***/
+#define MSTAT_PORT PORT_CHANNEL_A
+#define MSTAT_PIN PORTS_BIT_POS_3
+#define MSTAT_PIN_MASK (0x1 << 3)
 
-// SPI Function addresses 
-#define ADDR_VERSION      0x00 // return the firmware version number, no write 
-#define ADDR_STATUS       0x01 // returns status register, no write
-#define ADDR_RELAY        0x02 // relay address
-#define ADDR_HEMT_BIAS    0x03 // returns the HEMT bias value, no write
-#define ADDR_50K_BIAS     0x04 // returns the 50K bias value, no write
-#define ADDR_TEMPERATURE  0x05 // returns the temperature value, no write
-#define ADDR_COUNTER      0x06 // return the cycle counts, no write
-#define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
-#define ADDR_FLUX_RAMP    0x08 // Flux ramp controls
-#define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
-#define ADDR_COUNT          10 // number of addreses
-    
-// Firmware version. Coded in HEX, 1 byte per digit.
-// For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x020000   // R2.0.0
-    
+
+/*** Application Instance 0 Configuration ***/
+
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
 }

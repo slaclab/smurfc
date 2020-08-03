@@ -179,7 +179,7 @@
       <Template dnOrder="1">
         <Name dnOrder="0">system_init.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">5E86E2117335140933D77346FFAE8A5E</Checksum>
+        <Checksum dnOrder="2">1040B144681CD5788A82D4254A55FAA0</Checksum>
       </Template>
       <Template dnOrder="2">
         <Name dnOrder="0">main.c</Name>
@@ -203,7 +203,7 @@
       <Template dnOrder="6">
         <Name dnOrder="0">drv_adc_static.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/adc</Path>
-        <Checksum dnOrder="2">BBE32B4BD110030B567B919B33AA4EA7</Checksum>
+        <Checksum dnOrder="2">E4ABFB6B9E3407000A1EB4594BD2BE4F</Checksum>
       </Template>
       <Template dnOrder="7">
         <Name dnOrder="0">sys_devcon.c</Name>
@@ -213,7 +213,7 @@
       <Template dnOrder="8">
         <Name dnOrder="0">drv_adc_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/adc/src</Path>
-        <Checksum dnOrder="2">F1D6E87CA442DFC14CF5DBE231048187</Checksum>
+        <Checksum dnOrder="2">4D57502B9505B49453117C97D43DB241</Checksum>
       </Template>
       <Template dnOrder="9">
         <Name dnOrder="0">ccard.c</Name>
@@ -252,8 +252,7 @@
       <Template dnOrder="16">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">FD6B9C8D02293AB6E418C374A251E085</Checksum>
-        <ProjectFileChecksum dnOrder="3">924518453B68CA12BDFD606BBCD82346</ProjectFileChecksum>
+        <Checksum dnOrder="2">23C81D89FC0AF2F07C378C102C1DF378</Checksum>
       </Template>
       <Template dnOrder="17">
         <Name dnOrder="0">system_interrupt.c</Name>
