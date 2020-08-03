@@ -74,7 +74,7 @@ extern "C" {
 // *****************************************************************************
 // Firmware version. Coded as 6 digits in HEX, 4 bits per digit.
 // For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x020000   // R2.0.0
+#define FIRMWARE_VERSION 0x020001   // R2.0.1
 
 // Number of TES relays
 #define NUM_TES_CHANNELS 12
