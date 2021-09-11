@@ -252,7 +252,7 @@
       <Template dnOrder="16">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">23C81D89FC0AF2F07C378C102C1DF378</Checksum>
+        <Checksum dnOrder="2">CDF2478B0388C5DFD4D348079721B244</Checksum>
       </Template>
       <Template dnOrder="17">
         <Name dnOrder="0">system_interrupt.c</Name>
@@ -276,11 +276,11 @@
     </Templates>
     <CompilerItems dnOrder="2">
       <C32 dnOrder="0">
-        <Include dnOrder="0" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src"/>
-        <Include dnOrder="1" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/system_config/default"/>
-        <Include dnOrder="2" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/default"/>
-        <Include dnOrder="3" value="/Users/jvasquez/microchip/harmony/v2_06/framework"/>
-        <Include dnOrder="4" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/system_config/default/framework"/>
+        <Include dnOrder="0" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src"/>
+        <Include dnOrder="1" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/system_config/default"/>
+        <Include dnOrder="2" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/default"/>
+        <Include dnOrder="3" value="/afs/slac.stanford.edu/u/ey/rherbst/projects/smurf/harmony/v2_06/framework"/>
+        <Include dnOrder="4" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/system_config/default/framework"/>
       </C32>
     </CompilerItems>
     <Libraries dnOrder="3">
