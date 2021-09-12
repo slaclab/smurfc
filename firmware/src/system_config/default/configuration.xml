@@ -252,7 +252,7 @@
       <Template dnOrder="16">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">68D55852C2E7B2FC486C6B442057B94C</Checksum>
+        <Checksum dnOrder="2">68253EBE0B14F716B95D982E57EF24DA</Checksum>
       </Template>
       <Template dnOrder="17">
         <Name dnOrder="0">system_interrupt.c</Name>
