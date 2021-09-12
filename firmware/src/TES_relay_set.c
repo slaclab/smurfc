@@ -40,6 +40,7 @@ void TES_relay_set(uint32_t x)
 
 void TES_relay_clear(void)
 {
+    unsigned int n;
     for (n = 0; n < NUM_TES_CHANNELS; n++)
     {
         PLIB_PORTS_PinClear(PORTS_ID_0, tes_set_port[n], tes_set_bit[n]);

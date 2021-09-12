@@ -74,10 +74,11 @@ extern "C" {
 // *****************************************************************************
 // Firmware version. Coded as 6 digits in HEX, 4 bits per digit.
 // For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x020001   // R2.0.1
+#define FIRMWARE_VERSION 0x030001   // R3.0.1
 
-// Number of TES relays
-#define NUM_TES_CHANNELS 12
+// Number of TES relays, plus Flux ramp AC/DC Switch
+#define NUM_TES_CHANNELS 13
+#define RELAY_DELAY 7  // relay delay in ms
 
 // ADC channels configurations
 // NOTE,Harmony always reads ADC channels in numerical order (ANxx)
@@ -87,7 +88,7 @@ extern "C" {
 #define ADC_HEMT_BIAS_CHAN    3  // AN5
 #define ADC_ID_VOLT_CHAN      4  // AN6
 #define ADC_HEMT2_BIAS_CHAN   5  // AN7
-#define ADC_ID_VOLT2_CHAN     6  // AN8
+#define ADC_ID2_VOLT_CHAN     6  // AN8
 #define ADC_CHAN_COUNT        7  // Number of ADC channels in use
 #define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
 
@@ -102,7 +103,10 @@ extern "C" {
 #define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_FLUX_RAMP    0x08 // Flux ramp controls
 #define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
-#define ADDR_COUNT          10 // number of addreses
+#define ADDR_HEMT2_BIAS   0x0A // returns the HEMT bias value, no write
+#define ADDR_50K2_BIAS    0x0B // returns the 50K bias value, no write
+#define ADDR_ID2_VOLT     0x0C // return the ID voltage value, no write
+#define ADDR_COUNT          13 // number of addreses
 
 // *****************************************************************************
 // Global, external variable
@@ -125,9 +129,9 @@ extern bool RELAY_LATCHING;
 
 typedef enum
 {
-	/* Application's state machine's initial state. */
-	CCARD_STATE_INIT=0,
-	CCARD_STATE_SERVICE_TASKS,
+   /* Application's state machine's initial state. */
+    CCARD_STATE_INIT=0,
+    CCARD_STATE_SERVICE_TASKS,
     CCARD_RELAY_TIMEOUT,
     CCARD_READ_SPI,
     CCARD_READ_ADC, // ADC data ready

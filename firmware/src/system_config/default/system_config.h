@@ -86,7 +86,7 @@ extern "C" {
 #define SYS_CLK_UPLL_BEFORE_DIV2_FREQ       48000000ul
 #define SYS_CLK_CONFIG_PRIMARY_XTAL         0ul
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       32768ul
-   
+
 /*** Ports System Service Configuration ***/
 #define SYS_PORT_AD1PCFG        ~0xffff
 #define SYS_PORT_CNPUE          0x0
@@ -206,7 +206,7 @@ extern "C" {
 #define DRV_TMR_ASYNC_WRITE_ENABLE_IDX1     false
 #define DRV_TMR_POWER_STATE_IDX1            SYS_MODULE_POWER_RUN_FULL
 
- 
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Middleware & Other Library Configuration
