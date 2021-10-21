@@ -99,15 +99,15 @@ extern "C" {
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
 
-#define SYS_PORT_C_TRIS         0xFFFF
+#define SYS_PORT_C_TRIS         0xFFF9
 #define SYS_PORT_C_LAT          0x0000
 #define SYS_PORT_C_ODC          0x0000
 
-#define SYS_PORT_D_TRIS         0xF0FE
+#define SYS_PORT_D_TRIS         0xC002
 #define SYS_PORT_D_LAT          0x0000
 #define SYS_PORT_D_ODC          0x0000
 
-#define SYS_PORT_E_TRIS         0xFF1C
+#define SYS_PORT_E_TRIS         0xFC00
 #define SYS_PORT_E_LAT          0x0000
 #define SYS_PORT_E_ODC          0x0000
 
@@ -115,7 +115,7 @@ extern "C" {
 #define SYS_PORT_F_LAT          0x0000
 #define SYS_PORT_F_ODC          0x0000
 
-#define SYS_PORT_G_TRIS         0x7FFF
+#define SYS_PORT_G_TRIS         0x0FFF
 #define SYS_PORT_G_LAT          0x0000
 #define SYS_PORT_G_ODC          0x0000
 
@@ -144,7 +144,7 @@ extern "C" {
 /*** Select SPI compilation units.***/
 #define DRV_SPI_POLLED 				1
 #define DRV_SPI_ISR 				0
-#define DRV_SPI_MASTER 				1
+#define DRV_SPI_MASTER 				0
 #define DRV_SPI_SLAVE 				1
 #define DRV_SPI_RM 					1
 #define DRV_SPI_EBM 				0
@@ -222,20 +222,6 @@ extern "C" {
 // *****************************************************************************
 /*** Application Defined Pins ***/
 
-/*** Functions for FluxRampVoltMode pin ***/
-#define FluxRampVoltModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
-#define FluxRampVoltModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
-#define FluxRampVoltModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
-#define FluxRampVoltModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
-#define FluxRampVoltModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15, Value)
-
-/*** Functions for FluxRampCurrMode pin ***/
-#define FluxRampCurrModeToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
-#define FluxRampCurrModeOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
-#define FluxRampCurrModeOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
-#define FluxRampCurrModeStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5)
-#define FluxRampCurrModeStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_5, Value)
-
 /*** Functions for PS_HEMT_EN pin ***/
 #define PS_HEMT_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
 #define PS_HEMT_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
@@ -249,6 +235,34 @@ extern "C" {
 #define PS_50k_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
 #define PS_50k_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
+
+/*** Functions for IR_TX1 pin ***/
+#define IR_TX1Toggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define IR_TX1On() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define IR_TX1Off() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define IR_TX1StateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define IR_TX1StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1, Value)
+
+/*** Functions for IR_TX2 pin ***/
+#define IR_TX2Toggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define IR_TX2On() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define IR_TX2Off() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define IR_TX2StateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define IR_TX2StateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2, Value)
+
+/*** Functions for PS_50K2_EN pin ***/
+#define PS_50K2_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_8)
+#define PS_50K2_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_8)
+#define PS_50K2_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_8)
+#define PS_50K2_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_8)
+#define PS_50K2_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_8, Value)
+
+/*** Functions for PS_HEMT2_EN pin ***/
+#define PS_HEMT2_ENToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_9)
+#define PS_HEMT2_ENOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_9)
+#define PS_HEMT2_ENOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_9)
+#define PS_HEMT2_ENStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_9)
+#define PS_HEMT2_ENStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_9, Value)
 
 /*** Functions for MSTAT pin ***/
 #define MSTAT_PORT PORT_CHANNEL_A

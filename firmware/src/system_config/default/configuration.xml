@@ -186,89 +186,84 @@
         <Path dnOrder="1">Source&amp;#160;Files/app</Path>
       </Template>
       <Template dnOrder="3">
-        <Name dnOrder="0">drv_spi_master_rm_tasks.c</Name>
-        <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/dynamic</Path>
-        <Checksum dnOrder="2">1BFE00154B1064ECF49E6695B2D0D523</Checksum>
-      </Template>
-      <Template dnOrder="4">
         <Name dnOrder="0">system_definitions.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">69CF74B4338944B32591E85DEB545D0D</Checksum>
       </Template>
-      <Template dnOrder="5">
+      <Template dnOrder="4">
         <Name dnOrder="0">system_exceptions.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">A8BF1AE6018CC1DB37C1C14696195A5F</Checksum>
       </Template>
-      <Template dnOrder="6">
+      <Template dnOrder="5">
         <Name dnOrder="0">drv_adc_static.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/adc</Path>
-        <Checksum dnOrder="2">E4ABFB6B9E3407000A1EB4594BD2BE4F</Checksum>
+        <Checksum dnOrder="2">23329541315B298646BBA0B6E5437923</Checksum>
       </Template>
-      <Template dnOrder="7">
+      <Template dnOrder="6">
         <Name dnOrder="0">sys_devcon.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/system/devcon/src</Path>
         <Checksum dnOrder="2">54ADBD4A35BCA03C42C74182FCE41849</Checksum>
       </Template>
-      <Template dnOrder="8">
+      <Template dnOrder="7">
         <Name dnOrder="0">drv_adc_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/adc/src</Path>
-        <Checksum dnOrder="2">4D57502B9505B49453117C97D43DB241</Checksum>
+        <Checksum dnOrder="2">011B4B16808563A8DE6C01FAF2DA0398</Checksum>
       </Template>
-      <Template dnOrder="9">
+      <Template dnOrder="8">
         <Name dnOrder="0">ccard.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app</Path>
       </Template>
-      <Template dnOrder="10">
+      <Template dnOrder="9">
         <Name dnOrder="0">sys_devcon_local.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/system/devcon/src</Path>
         <Checksum dnOrder="2">B66F9B4DBD85DA7F9DE775E864E01395</Checksum>
       </Template>
-      <Template dnOrder="11">
+      <Template dnOrder="10">
         <Name dnOrder="0">drv_spi_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/dynamic</Path>
-        <Checksum dnOrder="2">1A2DC88B1E414D5C103CB343923EB006</Checksum>
+        <Checksum dnOrder="2">7311DAABF9C448C576FFA3D3FA2D7300</Checksum>
       </Template>
-      <Template dnOrder="12">
+      <Template dnOrder="11">
         <Name dnOrder="0">drv_spi_slave_rm_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/dynamic</Path>
         <Checksum dnOrder="2">4E218BC1A05941EB0A800772F9293CAF</Checksum>
       </Template>
-      <Template dnOrder="13">
+      <Template dnOrder="12">
         <Name dnOrder="0">sys_devcon.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/system/devcon</Path>
         <Checksum dnOrder="2">07580DCDEF89D9C79B062544109C5367</Checksum>
       </Template>
-      <Template dnOrder="14">
+      <Template dnOrder="13">
         <Name dnOrder="0">system_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">48DE5003D4E9BAA8287054DF42ADEEF9</Checksum>
       </Template>
-      <Template dnOrder="15">
+      <Template dnOrder="14">
         <Name dnOrder="0">sys_devcon_pic32mx.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/system/devcon/src</Path>
         <Checksum dnOrder="2">5141464248E33ABE9E7D144A2D4DC129</Checksum>
       </Template>
-      <Template dnOrder="16">
+      <Template dnOrder="15">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">23C81D89FC0AF2F07C378C102C1DF378</Checksum>
+        <Checksum dnOrder="2">7541993177E72A4A58F28000273FB9AA</Checksum>
       </Template>
-      <Template dnOrder="17">
+      <Template dnOrder="16">
         <Name dnOrder="0">system_interrupt.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">432E2C328DC40D88B33DBEEDD35936CD</Checksum>
       </Template>
-      <Template dnOrder="18">
+      <Template dnOrder="17">
         <Name dnOrder="0">ccard.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app</Path>
       </Template>
-      <Template dnOrder="19">
+      <Template dnOrder="18">
         <Name dnOrder="0">drv_spi_api.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/dynamic</Path>
-        <Checksum dnOrder="2">4945D4CF42AD3A91D0E1CD07339C37BF</Checksum>
+        <Checksum dnOrder="2">3F087F2E9330ACFE356B5946E7C8F8B6</Checksum>
       </Template>
-      <Template dnOrder="20">
+      <Template dnOrder="19">
         <Name dnOrder="0">sys_clk_pic32mx.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/system/clk/src</Path>
         <Checksum dnOrder="2">FDF6C8068CFFAEEC5F8537A8D6514230</Checksum>
@@ -276,11 +271,11 @@
     </Templates>
     <CompilerItems dnOrder="2">
       <C32 dnOrder="0">
-        <Include dnOrder="0" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src"/>
-        <Include dnOrder="1" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/system_config/default"/>
-        <Include dnOrder="2" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/default"/>
-        <Include dnOrder="3" value="/Users/jvasquez/microchip/harmony/v2_06/framework"/>
-        <Include dnOrder="4" value="/Users/jvasquez/microchip/harmony/v2_06/apps/smurfc/firmware/src/system_config/default/framework"/>
+        <Include dnOrder="0" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src"/>
+        <Include dnOrder="1" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/system_config/default"/>
+        <Include dnOrder="2" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/default"/>
+        <Include dnOrder="3" value="/afs/slac.stanford.edu/u/ey/rherbst/projects/smurf/harmony/v2_06/framework"/>
+        <Include dnOrder="4" value="/home/ryan/projects/smurf/harmony/v2_06/apps/smurfc/firmware/src/system_config/default/framework"/>
       </C32>
     </CompilerItems>
     <Libraries dnOrder="3">

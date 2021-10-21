@@ -92,11 +92,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 int32_t DRV_SPI_SetVTable(struct DRV_SPI_DRIVER_OBJECT * driverObject, const DRV_SPI_INIT * const pInit)
 {
     uint8_t mode = 0;
-    if (pInit->spiMode == DRV_SPI_MODE_MASTER)
-    {
-        mode = _SPI_DRV_VTABLE_MASTER;
-    }
-    else
     if (pInit->spiMode == DRV_SPI_MODE_SLAVE)
     {
         mode = _SPI_DRV_VTABLE_SLAVE;
@@ -141,9 +136,6 @@ int32_t DRV_SPI_SetVTable(struct DRV_SPI_DRIVER_OBJECT * driverObject, const DRV
     case _SPI_DRV_VTABLE_P_S_R_32:
         driverObject->vfMainTask = DRV_SPI_PolledSlaveRM32BitTasks;
         break;
-    case _SPI_DRV_VTABLE_P_M_R_32:
-        driverObject->vfMainTask = DRV_SPI_PolledMasterRM32BitTasks;
-        break;
     default:
         SYS_ASSERT(false, "\r\nInvalid SPI Configuration.");
         return -1;
@@ -159,21 +151,7 @@ int32_t DRV_SPI_SetupHardware(struct DRV_SPI_DRIVER_OBJECT * driverObject, const
     PLIB_SPI_Disable(spiId);
 
     /* Set up Master or Slave Mode*/
-    if (init->spiMode == DRV_SPI_MODE_MASTER)
-    {
-        PLIB_SPI_MasterEnable ( spiId  );
-    }
-    else
-    if (init->spiMode == DRV_SPI_MODE_SLAVE)
-    {
-        PLIB_SPI_SlaveEnable ( spiId  );
-
-    }
-    else
-    {
-        SYS_ASSERT(false, "\r\nInvalid SPI Configuration.");
-        return -1;
-    }
+    PLIB_SPI_SlaveEnable ( spiId  );
 
     /* Set up if the SPI is allowed to run while the rest of the CPU is in idle mode*/
     if (init->allowIdleRun)

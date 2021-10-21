@@ -65,7 +65,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 extern "C" {
 
 #endif
-// DOM-IGNORE-END 
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
@@ -74,18 +74,22 @@ extern "C" {
 // *****************************************************************************
 // Firmware version. Coded as 6 digits in HEX, 4 bits per digit.
 // For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x020001   // R2.0.1
+#define FIRMWARE_VERSION 0x040003   // R4.0.1
 
-// Number of TES relays
-#define NUM_TES_CHANNELS 12
+// Number of TES relays, plus Flux ramp AC/DC Switch
+#define NUM_TES_CHANNELS 13
+#define RELAY_DELAY 7  // relay delay in ms
 
 // ADC channels configurations
 // NOTE,Harmony always reads ADC channels in numerical order (ANxx)
-#define ADC_50K_BIAS_CHAN     0  // AN3
-#define ADC_TEMPERATURE_CHAN  1  // AN4
-#define ADC_HEMT_BIAS_CHAN    2  // AN5
-#define ADC_ID_VOLT_CHAN      3  // AN6
-#define ADC_CHAN_COUNT        4  // Number of ADC channels in use
+#define ADC_50K2_BIAS_CHAN    0  // AN2
+#define ADC_50K_BIAS_CHAN     1  // AN3
+#define ADC_TEMPERATURE_CHAN  2  // AN4
+#define ADC_HEMT_BIAS_CHAN    3  // AN5
+#define ADC_ID_VOLT_CHAN      4  // AN6
+#define ADC_HEMT2_BIAS_CHAN   5  // AN7
+#define ADC_ID2_VOLT_CHAN     6  // AN8
+#define ADC_CHAN_COUNT        7  // Number of ADC channels in use
 #define ADC_CHAN_SAMPLE_COUNT 5  // Number of averaged samples per channel
 
 // SPI Function addresses
@@ -99,12 +103,18 @@ extern "C" {
 #define ADDR_PS_EN        0x07 // PS enable (HEMT and 50k)
 #define ADDR_FLUX_RAMP    0x08 // Flux ramp controls
 #define ADDR_ID_VOLT      0x09 // return the ID voltage value, no write
-#define ADDR_COUNT          10 // number of addreses
+#define ADDR_HEMT2_BIAS   0x0A // returns the HEMT bias value, no write
+#define ADDR_50K2_BIAS    0x0B // returns the 50K bias value, no write
+#define ADDR_ID2_VOLT     0x0C // return the ID voltage value, no write
+#define ADDR_COUNT          13 // number of addreses
 
 // *****************************************************************************
 // Global, external variable
-extern uint32_t tes_port[NUM_TES_CHANNELS];
-extern uint32_t tes_bit[NUM_TES_CHANNELS];
+extern uint32_t tes_reset_port[NUM_TES_CHANNELS];
+extern uint32_t tes_reset_bit[NUM_TES_CHANNELS];
+extern uint32_t tes_set_port[NUM_TES_CHANNELS];
+extern uint32_t tes_set_bit[NUM_TES_CHANNELS];
+extern bool RELAY_LATCHING;
 
 // *****************************************************************************
 /* Application states
@@ -119,12 +129,13 @@ extern uint32_t tes_bit[NUM_TES_CHANNELS];
 
 typedef enum
 {
-	/* Application's state machine's initial state. */
-	CCARD_STATE_INIT=0,
-	CCARD_STATE_SERVICE_TASKS,
+   /* Application's state machine's initial state. */
+    CCARD_STATE_INIT=0,
+    CCARD_STATE_SERVICE_TASKS,
+    CCARD_RELAY_TIMEOUT,
     CCARD_READ_SPI,
     CCARD_READ_ADC, // ADC data ready
-            
+
 } CCARD_STATES;
 
 
@@ -145,7 +156,9 @@ typedef struct
 {
     /* The application's current state */
     CCARD_STATES state;
-    
+
+    SYS_TMR_HANDLE hDelayTimer;
+
 } CCARD_DATA;
 
 
@@ -156,7 +169,7 @@ typedef struct
 // *****************************************************************************
 /* These routines are called by drivers when certain events occur.
 */
-	
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Initialization and State Machine Functions
@@ -171,8 +184,8 @@ typedef struct
      MPLAB Harmony application initialization routine.
 
   Description:
-    This function initializes the Harmony application.  It places the 
-    application in its initial state and prepares it to run so that its 
+    This function initializes the Harmony application.  It places the
+    application in its initial state and prepares it to run so that its
     APP_Tasks function can be called.
 
   Precondition:
@@ -233,19 +246,19 @@ void CCARD_Tasks( void );
 /*******************************************************************************
   Function:
     void TES_relay_set ( unsigned int )
- * 
+ *
  * Summary:
- * 
+ *
  * Description:
- * 
+ *
  * Parameters:
- * 
+ *
  * Returns:
- * 
+ *
  * Example:
- * 
+ *
  * Remarks:
- * 
+ *
  */
 void TES_relay_set(unsigned int);
 
