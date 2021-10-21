@@ -144,7 +144,7 @@ extern "C" {
 /*** Select SPI compilation units.***/
 #define DRV_SPI_POLLED 				1
 #define DRV_SPI_ISR 				0
-#define DRV_SPI_MASTER 				1
+#define DRV_SPI_MASTER 				0
 #define DRV_SPI_SLAVE 				1
 #define DRV_SPI_RM 					1
 #define DRV_SPI_EBM 				0
