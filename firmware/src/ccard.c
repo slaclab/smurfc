@@ -366,7 +366,7 @@ void CCARD_Tasks ( void )
                     case ADDR_PS_EN:
                     {
                         // Only 2 bits are used
-                        ps_en = data & 0x03;
+                        ps_en = data & 0x0F;
 
                         // HEMT_EN (bit 0)
                         PS_HEMT_ENStateSet( ps_en & 0x01 );
