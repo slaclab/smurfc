@@ -208,7 +208,7 @@
       <Template dnOrder="7">
         <Name dnOrder="0">drv_adc_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/adc/src</Path>
-        <Checksum dnOrder="2">5F7D8CE82D19C43E89D3600ABD8AD7BE</Checksum>
+        <Checksum dnOrder="2">011B4B16808563A8DE6C01FAF2DA0398</Checksum>
       </Template>
       <Template dnOrder="8">
         <Name dnOrder="0">ccard.c</Name>
