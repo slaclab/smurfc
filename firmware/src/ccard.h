@@ -74,8 +74,7 @@ extern "C" {
 // *****************************************************************************
 // Firmware version. Coded as 6 digits in HEX, 4 bits per digit.
 // For example: Version R2.3.1 will be 0x020301
-#define FIRMWARE_VERSION 0x040003   // R4.0.1
-
+/bin/bash: line 1: :w: command not found
 // Number of TES relays, plus Flux ramp AC/DC Switch
 #define NUM_TES_CHANNELS 13
 #define RELAY_DELAY 7  // relay delay in ms
@@ -106,7 +105,8 @@ extern "C" {
 #define ADDR_HEMT2_BIAS   0x0A // returns the HEMT bias value, no write
 #define ADDR_50K2_BIAS    0x0B // returns the 50K bias value, no write
 #define ADDR_ID2_VOLT     0x0C // return the ID voltage value, no write
-#define ADDR_COUNT          13 // number of addreses
+#define ADDR_FIBER_OUT    0x0D // return the ID voltage value, no write
+#define ADDR_COUNT          14 // number of addreses
 
 // *****************************************************************************
 // Global, external variable

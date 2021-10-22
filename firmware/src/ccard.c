@@ -116,7 +116,7 @@ uint32_t ps_en;             // Power supplies (HEMT and 50k) enable
 uint32_t flux_ramp_control; // Flux ramp (voltage and current mode) controls, no longer used
 uint32_t id_volt;           // ID voltage value
 uint32_t id2_volt;          // ID voltage value, 2
-
+uint32_t fiber_out;         // Fiber output control
 
 bool relay_busy = false;
 
@@ -231,6 +231,8 @@ void CCARD_Tasks ( void )
             PS_50k_ENOff();
             PS_HEMT2_ENOff();
             PS_50K2_ENOff();
+            IR_TX1Off();
+            IR_TX2OFF();
 
             // set up register map
             regptr[ADDR_VERSION]      = &firmware_version;
@@ -246,6 +248,7 @@ void CCARD_Tasks ( void )
             regptr[ADDR_HEMT2_BIAS]   = &hemt2_bias;
             regptr[ADDR_50K2_BIAS]    = &a50k2_bias;
             regptr[ADDR_ID2_VOLT]     = &id2_volt;
+            regptr[ADDR_FIBER_OUT]    = &fiber_out;
 
             // this is the SPI used for receiving commands
             SPIHandle = DRV_SPI_Open(DRV_SPI_INDEX_0, DRV_IO_INTENT_READWRITE );
@@ -365,7 +368,7 @@ void CCARD_Tasks ( void )
                     }
                     case ADDR_PS_EN:
                     {
-                        // Only 2 bits are used
+                        // Only 4 bits are used
                         ps_en = data & 0x0F;
 
                         // HEMT_EN (bit 0)
@@ -382,6 +385,17 @@ void CCARD_Tasks ( void )
 
                         break;
                     }
+
+                    case ADDR_FIBER_OUT:
+                    {
+                        // Only 2 bits are used
+                        fiber_out = data & 0x03;
+
+                        IR_TX1StateSet( fiber_out & 0x1);
+                        IR_TX2StateSet( (fiber_out >> 1) & 0x1);
+                        break;
+                    }
+
                     default:
                     {
                         break;
