@@ -232,7 +232,7 @@ void CCARD_Tasks ( void )
             PS_HEMT2_ENOff();
             PS_50K2_ENOff();
             IR_TX1Off();
-            IR_TX2OFF();
+            IR_TX2Off();
 
             // set up register map
             regptr[ADDR_VERSION]      = &firmware_version;
