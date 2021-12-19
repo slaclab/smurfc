@@ -20,9 +20,11 @@
 void TES_relay_set(uint32_t x)
 {
     unsigned int n;
+    unsigned int bit;
+
     for (n = 0; n < NUM_TES_CHANNELS; n++)
     {
-        if (x & (0x1 << n))
+        if (x & (0x1 << tes_value_bit[n]))
         {
             PLIB_PORTS_PinSet(PORTS_ID_0, tes_set_port[n], tes_set_bit[n]);
         }

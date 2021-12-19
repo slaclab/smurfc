@@ -115,6 +115,7 @@ extern uint32_t tes_reset_port[NUM_TES_CHANNELS];
 extern uint32_t tes_reset_bit[NUM_TES_CHANNELS];
 extern uint32_t tes_set_port[NUM_TES_CHANNELS];
 extern uint32_t tes_set_bit[NUM_TES_CHANNELS];
+extern uint32_t tes_value_bit[NUM_TES_CHANNELS];
 extern bool RELAY_LATCHING;
 
 // *****************************************************************************
