@@ -63,10 +63,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 // *****************************************************************************
 // Taken from ccard.h
-uint32_t tes_reset_port[NUM_TES_CHANNELS] = { 4,  6,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3, 4  };
-uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11, 2,  9, 5  };
-uint32_t tes_set_port[NUM_TES_CHANNELS]   = { 4,  4,  6,  4,  0,  5,  3,  3,  3,  3,  3,  3, 6  };
-uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10, 3,  8, 15 };
+uint32_t tes_reset_port[NUM_TES_CHANNELS] = { 4,  4,  6,  4,  0,  5,  3,  3,   3,  3,  3,  3, 4  };
+uint32_t tes_reset_bit[NUM_TES_CHANNELS]  = { 4,  2,  12, 1,  7,  1,  7,  5,  13, 10,  3,  8, 5  };
+uint32_t tes_set_port[NUM_TES_CHANNELS]   = { 4,  6,  6,  4,  0,  5,  3,  3,   3,  3,  3,  3, 6  };
+uint32_t tes_set_bit[NUM_TES_CHANNELS]    = { 3,  13, 14, 0,  6,  0,  6,  4,  12, 11,  2,  9, 15 };
+uint32_t tes_value_bit[NUM_TES_CHANNELS]  = { 0,  1,  2,  3,  4,  5,  6,  7,   8,  9, 10, 11, 16 };
 
 // Relays default state
 uint32_t RELAY_DEFAULT = 0x00;
@@ -305,7 +306,7 @@ void CCARD_Tasks ( void )
                 TES_relay_clear(); // clears relay drive
             }
             relay_busy = false;  // relay done
-            relay = relay & ((1 << (data_bits-1))-1);  // clear relay busy bit
+            //relay = relay & ((1 << (data_bits-1))-1);  // clear relay busy bit
             ccardData.state = CCARD_STATE_SERVICE_TASKS;
             break;
         }
