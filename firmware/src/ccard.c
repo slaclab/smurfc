@@ -358,7 +358,7 @@ void CCARD_Tasks ( void )
                     case ADDR_RELAY:
                     {
                         // Only NUM_TES_CHANNELS bits are used.
-                        relay = data & ((1 << NUM_TES_CHANNELS) - 1);
+                        relay = data & TES_RELAY_MASK;
                         if (relay_busy) break;  // just ignore if relay already busy
                         relay_busy = true;
 
